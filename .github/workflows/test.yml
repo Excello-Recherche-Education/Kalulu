@@ -1,0 +1,29 @@
+name: Run GUT Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Download Godot
+      uses: chickensoft-games/setup-godot@v1
+      with:
+        version: 4.3.stable.official
+        include-mono: false
+
+    - name: Run GUT tests
+      run: |
+        godot --headless --no-window --quit \
+        --path . \
+        --script res://addons/gut/gut_cmdln.gd
