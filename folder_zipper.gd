@@ -24,9 +24,9 @@ func write_folder_recursive(abs_path: String, rel_path: String) -> Error:
 	return OK
 
 
-func compress(path: String, output_name: String) -> void:
+func compress(path: String, output_name: String) -> Error:
 	open(output_name, ZIPPacker.APPEND_CREATE)
 	path = path.simplify_path()
-	write_folder_recursive(path.get_base_dir(), path.get_file())
+	var err := write_folder_recursive(path.get_base_dir(), path.get_file())
 	close()
-
+	return err
