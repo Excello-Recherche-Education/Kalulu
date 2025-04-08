@@ -5,7 +5,7 @@ signal disappeared()
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var button: TextureButton = $TextureButton
-@onready var label: Label = %Label
+@onready var label: Label = %DynamicFontSizeLabel
 @onready var highlight_fx: HighlightFX = %HighlightFX
 @onready var right_fx: RightFX = %RightFX
 @onready var wrong_fx: WrongFX = %WrongFX
