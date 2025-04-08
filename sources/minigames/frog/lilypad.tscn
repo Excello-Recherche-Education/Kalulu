@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cge0uyn30tcpv" path="res://sources/utils/fx/highlight.tscn" id="5_1llgv"]
 [ext_resource type="PackedScene" uid="uid://cn2rw06pltyiu" path="res://sources/utils/fx/right.tscn" id="6_wslmk"]
 [ext_resource type="PackedScene" uid="uid://dlmbxcgiv8tpr" path="res://sources/utils/fx/wrong.tscn" id="7_241b6"]
-[ext_resource type="LabelSettings" uid="uid://bguqnhiblwick" path="res://resources/themes/minigames_label_settings.tres" id="8_4pqhl"]
+[ext_resource type="PackedScene" uid="uid://bif0pwattr6xj" path="res://sources/utils/dynamic_font_size_label.tscn" id="8_c4kn7"]
 
 [sub_resource type="Animation" id="Animation_852sr"]
 length = 0.001
@@ -22,18 +22,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_qb6cr"]
@@ -50,18 +38,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 1.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3tohd"]
@@ -141,22 +117,15 @@ position = Vector2(150, -42)
 unique_name_in_owner = true
 position = Vector2(150, 342)
 
-[node name="Label" type="Label" parent="."]
+[node name="DynamicFontSizeLabel" parent="TextureButton" instance=ExtResource("8_c4kn7")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -150.0
-offset_top = -150.0
-offset_right = 150.0
-offset_bottom = 111.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "ent"
-label_settings = ExtResource("8_4pqhl")
-horizontal_alignment = 1
-vertical_alignment = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.2
+anchor_right = 0.9
+anchor_bottom = 0.6
+offset_bottom = 2.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]
