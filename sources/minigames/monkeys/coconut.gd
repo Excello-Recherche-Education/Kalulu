@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var highlight_fx: HighlightFX = $HighlightFX
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var label: Label = $Label
+@onready var label: DynamicFontSizeLabel = $Sprite2D/DynamicFontSizeLabel
 @onready var broken_coconut_fx: BrokenCoconutFX = $BrokenCoconutFX
 
 var text: String :
@@ -10,6 +10,7 @@ var text: String :
 		text = value
 		if label:
 			label.text = text
+			label._update_font_size()
 
 
 func highlight() -> void:
