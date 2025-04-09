@@ -406,6 +406,7 @@ func _open_minigames_layout(button: LessonButton, lesson_ind: int) -> void:
 	
 	# Gets the correct exercises for the lesson
 	var exercises: = Database.get_exercice_for_lesson(lesson_ind)
+	print("lesson index = " + str(lesson_ind))
 	if not exercises or exercises.size() < 3:
 		return
 	
