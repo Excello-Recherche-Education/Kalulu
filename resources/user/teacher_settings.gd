@@ -40,7 +40,7 @@ func update_from_dict(dict: Dictionary) -> void:
 		var device_students: Array[StudentData] = []
 		for s: Dictionary in dict.students[device]: 
 			var student: = StudentData.new()
-			student.code = str(s.code)
+			student.code = s.code
 			student.name = s.name
 			student.age = s.age
 			student.level = s.level

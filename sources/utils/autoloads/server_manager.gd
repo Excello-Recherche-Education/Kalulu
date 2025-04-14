@@ -6,13 +6,27 @@ signal internet_check_completed(has_acces: bool)
 @onready var http_request: HTTPRequest = $HTTPRequest
 @onready var loading_rect: TextureRect = $TextureRect
 
-const INTERNET_CHECK_URL: = "https://google.com"
-const URL_PROD: String = "https://uqkpbayw1k.execute-api.eu-west-3.amazonaws.com/prod/"
-const URL_DEV: String = "https://nldfw1jmxc.execute-api.eu-west-3.amazonaws.com/dev/"
+const INTERNET_CHECK_URL := "https://google.com"
+
+var ENV_URL: String = ""
 
 # Response from the last request
 var code: int
 var json: Dictionary
+
+func _ready():
+	var config = ConfigFile.new()
+	if config.load("user://environment.cfg") == OK:
+		var env = int(config.get_value("environment", "current", "0"))
+		set_environment(env)
+	else:
+		set_environment(1)  # fallback PROD
+
+func set_environment(env: int):
+	match env:
+		0: ENV_URL = "https://nldfw1jmxc.execute-api.eu-west-3.amazonaws.com/dev/"
+		1: ENV_URL = "https://uqkpbayw1k.execute-api.eu-west-3.amazonaws.com/prod/"
+		_: ENV_URL = ""
 
 
 func check_email(email: String) -> Dictionary:
@@ -61,7 +75,7 @@ func update_student(p_name: String, level: StudentData.Level, age: int) -> Dicti
 
 
 func test_dev() -> void:
-	await _post_request("submit-student-metrics", {"student_id": 1, "level": 2, "time_spent": 42}, true)
+	await _post_request("submit-student-metrics", {"student_id": 3, "level": 4, "time_spent": 4210})
 
 
 func remove_student(p_code: int) -> Dictionary:
@@ -97,7 +111,7 @@ func _create_request_headers() -> PackedStringArray:
 
 
 func _response() -> Dictionary:
-	var res: = {
+	var res: Dictionary = {
 			"code" : code,
 			"body" : json
 		}
@@ -107,33 +121,31 @@ func _response() -> Dictionary:
 func _get_request(URI: String, params: Dictionary) -> void:
 	code = 0
 	json = {}
-	
-	if http_request.request(_create_URI_with_parameters(URL_PROD + URI, params), _create_request_headers()) == 0:
+	if http_request.request(_create_URI_with_parameters(ENV_URL + URI, params), _create_request_headers()) == 0:
 		await request_completed
 	else:
 		code = 500
 		json = {message = "Internal Server Error"}
+	print(_create_URI_with_parameters(ENV_URL + URI, params))
 
 
-func _post_request(URI: String, params: Dictionary, dev: bool = false) -> void:
+func _post_request(URI: String, params: Dictionary) -> void:
 	code = 0
 	json = {}
-	var URL: String = URL_PROD
-	if dev:
-		URL = URL_DEV
-	if http_request.request(_create_URI_with_parameters(URL + URI, params), _create_request_headers(), HTTPClient.METHOD_POST, "") == 0:
+	if http_request.request(_create_URI_with_parameters(ENV_URL + URI, params), _create_request_headers(), HTTPClient.METHOD_POST, "") == 0:
 		await request_completed
 	else:
 		code = 500
 		json = {message = "Internal Server Error"}
-		push_error("Internal Server Error while sending request " + URI + " in " + "dev" if dev else "prod")
+		push_error("Internal Server Error while sending request to " + ENV_URL + URI)
+	print(_create_URI_with_parameters(ENV_URL + URI, params))
 
 
-func _post_json_request(URI: String, data: Dictionary) -> void:
+func _post_json_request(URI: String, data: Dictionary, dev: bool = false) -> void:
 	code = 0
 	json = {}
 	
-	var req: = URL_PROD + URI
+	var req: = ENV_URL + URI
 	var headers: = _create_request_headers()
 	headers.append("Content-Type: application/json")
 	
@@ -142,13 +154,14 @@ func _post_json_request(URI: String, data: Dictionary) -> void:
 	else:
 		code = 500
 		json = {message = "Internal Server Error"}
+	print(req)
 
 
 func _delete_request(URI: String, params: Dictionary = {}) -> void:
 	code = 0
 	json = {}
 	
-	var req: = _create_URI_with_parameters(URL_PROD + URI, params)
+	var req: = _create_URI_with_parameters(ENV_URL + URI, params)
 	var headers: = _create_request_headers()
 	
 	if http_request.request(req, headers, HTTPClient.METHOD_DELETE, "") == 0:
@@ -156,16 +169,19 @@ func _delete_request(URI: String, params: Dictionary = {}) -> void:
 	else:
 		code = 500
 		json = {message = "Internal Server Error"}
+	print(_create_URI_with_parameters(ENV_URL + URI, params))
 
 #endregion
 
 func _on_http_request_request_completed(_result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	code = response_code
+	print(body.get_string_from_utf8())
 	if body:
 		json = JSON.parse_string(body.get_string_from_utf8())
 	request_completed.emit(response_code, json)
 	
 	loading_rect.hide()
+	print(request_completed)
 
 
 func _on_internet_check_request_completed(_result: int, response_code: int, _headers: PackedStringArray, _body: PackedByteArray) -> void:
