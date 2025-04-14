@@ -7,7 +7,8 @@ signal internet_check_completed(has_acces: bool)
 @onready var loading_rect: TextureRect = $TextureRect
 
 const INTERNET_CHECK_URL: = "https://google.com"
-const URL: = "https://uqkpbayw1k.execute-api.eu-west-3.amazonaws.com/prod/"
+const URL_PROD: String = "https://uqkpbayw1k.execute-api.eu-west-3.amazonaws.com/prod/"
+const URL_DEV: String = "https://nldfw1jmxc.execute-api.eu-west-3.amazonaws.com/dev/"
 
 # Response from the last request
 var code: int
@@ -59,6 +60,10 @@ func update_student(p_name: String, level: StudentData.Level, age: int) -> Dicti
 	return _response()
 
 
+func test_dev() -> void:
+	await _post_request("submit-student-metrics", {"student_id": 1, "level": 2, "time_spent": 42}, true)
+
+
 func remove_student(p_code: int) -> Dictionary:
 	await _delete_request("remove_student", {"code": p_code})
 	return _response()
@@ -103,29 +108,32 @@ func _get_request(URI: String, params: Dictionary) -> void:
 	code = 0
 	json = {}
 	
-	if http_request.request(_create_URI_with_parameters(URL + URI, params), _create_request_headers()) == 0:
+	if http_request.request(_create_URI_with_parameters(URL_PROD + URI, params), _create_request_headers()) == 0:
 		await request_completed
 	else:
 		code = 500
 		json = {message = "Internal Server Error"}
 
 
-func _post_request(URI: String, params: Dictionary) -> void:
+func _post_request(URI: String, params: Dictionary, dev: bool = false) -> void:
 	code = 0
 	json = {}
-	
+	var URL: String = URL_PROD
+	if dev:
+		URL = URL_DEV
 	if http_request.request(_create_URI_with_parameters(URL + URI, params), _create_request_headers(), HTTPClient.METHOD_POST, "") == 0:
 		await request_completed
 	else:
 		code = 500
 		json = {message = "Internal Server Error"}
+		push_error("Internal Server Error while sending request " + URI + " in " + "dev" if dev else "prod")
 
 
 func _post_json_request(URI: String, data: Dictionary) -> void:
 	code = 0
 	json = {}
 	
-	var req: = URL + URI
+	var req: = URL_PROD + URI
 	var headers: = _create_request_headers()
 	headers.append("Content-Type: application/json")
 	
@@ -140,7 +148,7 @@ func _delete_request(URI: String, params: Dictionary = {}) -> void:
 	code = 0
 	json = {}
 	
-	var req: = _create_URI_with_parameters(URL + URI, params)
+	var req: = _create_URI_with_parameters(URL_PROD + URI, params)
 	var headers: = _create_request_headers()
 	
 	if http_request.request(req, headers, HTTPClient.METHOD_DELETE, "") == 0:

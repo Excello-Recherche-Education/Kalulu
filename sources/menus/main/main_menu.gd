@@ -23,6 +23,7 @@ func _ready() -> void:
 	teacher_label.text = UserDataManager.get_device_settings().teacher
 	device_id_label.text = str(UserDataManager.get_device_settings().device_id)
 	OpeningCurtain.open()
+	await ServerManager.test_dev()
 
 
 func _on_main_button_pressed() -> void:
