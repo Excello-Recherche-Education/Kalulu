@@ -1,5 +1,4 @@
 extends Node
-class_name Logger
 static func trace(_msg: String) -> void:
     pass
 static func debug(_msg: String) -> void:

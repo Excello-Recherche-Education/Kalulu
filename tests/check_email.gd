@@ -1,10 +1,11 @@
 extends SceneTree
 
 func _initialize() -> void:
-    # When running the test project from tests/godot, res:// points to that
-    # directory. ServerManager lives in the repository sources folder one level
-    # above, so load it relatively.
-    var server_scene = load("res://../sources/utils/autoloads/server_manager.tscn")
+    # Load stubs so typed classes like TeacherSettings are registered
+    preload("res://teacher_settings_stub.gd")
+    preload("res://user_remediation_stub.gd")
+    # ServerManager is copied into the test project so we can load it directly
+    var server_scene = load("res://server_manager.tscn")
     var server_manager = server_scene.instantiate()
     get_root().add_child(server_manager)
     await process_frame
