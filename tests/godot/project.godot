@@ -1,0 +1,9 @@
+config_version=5
+
+[application]
+config/name="KaluluTest"
+config/features=PackedStringArray("4.4")
+
+[autoload]
+Logger="*res://logger_stub.gd"
+UserDataManager="*res://user_data_manager_stub.gd"

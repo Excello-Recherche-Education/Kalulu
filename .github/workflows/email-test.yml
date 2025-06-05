@@ -9,7 +9,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: chickensoft-games/setup-godot@v1
         with:
-          version: 4.2.2-stable
+          version: 4.4.1-stable
       - name: Run email check
+        working-directory: tests/godot
         run: |
-          godot --headless -q -s tests/check_email.gd
+          godot --headless -q -s ../check_email.gd
