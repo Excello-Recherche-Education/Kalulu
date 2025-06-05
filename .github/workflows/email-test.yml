@@ -1,0 +1,15 @@
+name: "Email Validation Test"
+on:
+  pull_request:
+
+jobs:
+  check-email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chickensoft-games/setup-godot@v1
+        with:
+          version: 4.2.2-stable
+      - name: Run email check
+        run: |
+          godot --headless -q -s tests/check_email.gd
