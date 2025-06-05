@@ -13,4 +13,4 @@ jobs:
       - name: Run email check
         working-directory: tests/godot
         run: |
-          godot --headless -q -s ../check_email.gd
+          godot --headless --path . -q -s ../check_email.gd
