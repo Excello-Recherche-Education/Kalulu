@@ -6,6 +6,9 @@ EXCLUDED_DIRS = {"addons", ".git", ".github"}
 
 PASCAL_CASE = re.compile(r"^[A-Z][A-Za-z0-9]*$")
 SNAKE_CASE = re.compile(r"^_?[a-z][a-z0-9_]*$")
+
+# Allow constants in regular snake_case as well
+LOWER_SNAKE_CASE = SNAKE_CASE
 UPPER_SNAKE_CASE = re.compile(r"^[A-Z][A-Z0-9_]*$")
 
 issues = []
@@ -48,8 +51,9 @@ for root, dirs, files in os.walk('.', topdown=True):
                     params = m.group(2)
                     if params:
                         params = params.strip('()')
-                        for param in params.split(','):
-                            param_name = param.strip()
+                # Constants can optionally start with an underscore. They may be in
+                # upper snake case or regular snake case.
+                    if not UPPER_SNAKE_CASE.match(name) and not LOWER_SNAKE_CASE.match(name):
                             if not param_name:
                                 continue
                             param_name = param_name.split(':')[0].split('=')[0].strip()
