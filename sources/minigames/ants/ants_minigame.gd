@@ -215,6 +215,13 @@ func _on_current_progression_changed() -> void:
 func _on_word_answer(stimulus: String, expected_stimulus: String, word: TextureButton) -> void:
 	_log_new_response({"Word": stimulus}, {"Word": expected_stimulus})
 	
+	# TODO UPDATE REMEDIATION SCORE OF WORDS
+	#if current_word_has_errors:
+		#_update_word_score(1 as int, -1)
+		#current_word_has_errors = false
+	#else:
+		#_update_word_score(_get_current_stimulus().ID as int, 1)
+	
 	answers[word.get_index()] = stimulus == expected_stimulus
 	answered[word.get_index()] = true
 	
