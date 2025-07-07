@@ -223,22 +223,6 @@ text = "SIGN_IN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LanguageContainer" type="VBoxContainer" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="LanguageLabel" type="Label" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/LanguageContainer"]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 70
-text = "LANGUAGE"
-
-[node name="LanguageField" type="OptionButton" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/LanguageContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"Combobox"
-theme_override_font_sizes/font_size = 70
-script = ExtResource("13_rs3hd")
 
 [node name="DeviceIDContainer" type="VBoxContainer" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer"]
 unique_name_in_owner = true
@@ -511,7 +495,6 @@ text = "CANCEL"
 [connection signal="pressed" from="Kalulu/PlayButton" to="." method="_on_main_button_pressed"]
 [connection signal="logged_in" from="KeyboardSpacer/LoginForm" to="." method="_on_login_in"]
 [connection signal="control_validated" from="KeyboardSpacer/LoginForm/LoginFormValidator" to="KeyboardSpacer/LoginForm" method="_on_login_form_validator_control_validated"]
-[connection signal="item_selected" from="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/LanguageContainer/LanguageField" to="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/LanguageContainer/LanguageField" method="_on_item_selected"]
 [connection signal="pressed" from="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/ValidateButton" to="KeyboardSpacer/LoginForm" method="_on_validate_button_pressed"]
 [connection signal="pressed" from="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/Register" to="." method="_on_register_pressed"]
 [connection signal="pressed" from="InterfaceLeft/Container/BackButton" to="." method="_on_back_button_pressed"]

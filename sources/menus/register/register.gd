@@ -3,12 +3,15 @@ extends Control
 const MAIN_MENU_PATH: String = "res://sources/menus/main/main_menu.tscn"
 const NEXT_SCENE_PATH: String = "res://sources/menus/settings/teacher_settings.tscn"
 
+@onready var language_step: PackedScene = preload("res://sources/menus/register/steps/language/language_step.tscn")
 @onready var teacher_steps: Array[PackedScene] = [
-	preload("res://sources/menus/register/steps/teacher/method_step.tscn"),
-	preload("res://sources/menus/register/steps/teacher/devices_count_step.tscn")
+        language_step,
+        preload("res://sources/menus/register/steps/teacher/method_step.tscn"),
+        preload("res://sources/menus/register/steps/teacher/devices_count_step.tscn")
 ]
 @onready var parent_steps: Array[PackedScene] = [
-	preload("res://sources/menus/register/steps/parent/players_count_step.tscn")
+        language_step,
+        preload("res://sources/menus/register/steps/parent/players_count_step.tscn")
 ]
 @onready var last_steps: Array[PackedScene] = [
 	preload("res://sources/menus/register/steps/credentials_step.tscn"),
