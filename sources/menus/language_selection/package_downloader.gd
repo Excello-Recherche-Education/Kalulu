@@ -25,7 +25,7 @@ const ERROR_MESSAGES: Array[String] = [
 @onready var error_label: Label = %ErrorLabel
 @onready var error_popup: ConfirmPopup = $ErrorPopup
 
-var device_language: String
+var user_language: String
 var current_language_path: String
 var mutex: Mutex
 var thread: Thread
@@ -43,9 +43,9 @@ func _ready() -> void:
 		_show_error(0)
 		return
 	
-	device_language = UserDataManager.get_device_settings().language
-	current_language_path = USER_LANGUAGE_RESOURCES_PATH.path_join(device_language)
-	current_language_version = UserDataManager.get_device_settings().language_versions.get(device_language, {})
+	user_language = teacher_settings.language
+	current_language_path = USER_LANGUAGE_RESOURCES_PATH.path_join(user_language)
+	current_language_version = UserDataManager.get_device_settings().language_versions.get(user_language, {})
 	
 	if not await ServerManager.check_internet_access():
 		# Offline mode, if a pack is already downloaded, go to next scene
@@ -59,7 +59,7 @@ func _ready() -> void:
 		return
 	
 	# Gets the info of the language pack on the server
-	var res: Dictionary = await ServerManager.get_language_pack_url(device_language)
+	var res: Dictionary = await ServerManager.get_language_pack_url(user_language)
 	if res.code == 200:
 		server_language_version = Time.get_datetime_dict_from_datetime_string(res.body.last_modified as String, false)
 	# Authentication failed, disconnect the user
@@ -92,7 +92,7 @@ func _ready() -> void:
 			_delete_dir(current_language_path)
 		
 		# Download the pack
-		http_request.set_download_file(USER_LANGUAGE_RESOURCES_PATH.path_join(device_language + ".zip"))
+		http_request.set_download_file(USER_LANGUAGE_RESOURCES_PATH.path_join(user_language + ".zip"))
 		http_request.request(res.body.url as String)
 	else:
 		download_bar.value = 1
@@ -131,10 +131,10 @@ func _exit_tree() -> void:
 
 func _copy_data(this: PackageDownloader) -> void:
 	# Check if a zip exists for the complete locale
-	if not FileAccess.file_exists(USER_LANGUAGE_RESOURCES_PATH.path_join(device_language + ".zip")):
+	if not FileAccess.file_exists(USER_LANGUAGE_RESOURCES_PATH.path_join(user_language + ".zip")):
 		return
 	
-	var language_zip: String = device_language + ".zip"
+	var language_zip: String = user_language + ".zip"
 	var language_zip_path: String = USER_LANGUAGE_RESOURCES_PATH.path_join(language_zip)
 	
 	# Create and connect the unzipper to the UI
@@ -227,7 +227,7 @@ func _go_to_next_scene() -> void:
 		Database.connect_to_db()
 	
 	if not server_language_version.is_empty():
-		UserDataManager.set_language_version(device_language, server_language_version)
+		UserDataManager.set_language_version(user_language, server_language_version)
 	
 	# Check if we have a valid device id
 	if not UserDataManager.get_device_settings().device_id:
