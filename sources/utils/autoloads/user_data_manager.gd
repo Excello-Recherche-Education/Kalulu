@@ -125,11 +125,11 @@ func login(infos: Dictionary) -> bool:
 		return false
 		
 	if not infos:
-		Logger.error("UserDataManager: User cannot login because they have no _device_settings.")
+		Logger.error("UserDataManager: User cannot login because they have no infos.")
 		return false
 	
 	if not infos.has("email") or not infos.email:
-		Logger.error("UserDataManager: User cannot login because they have no infos.")
+		Logger.error("UserDataManager: User cannot login because they have no email.")
 		return false
 	
 	if not infos.has("account_type"):
@@ -160,6 +160,9 @@ func login(infos: Dictionary) -> bool:
 				["res://resources/user/student_data.gd"]) as TeacherSettings
 	
 	teacher_settings.update_from_dict(infos)
+	if not infos.has("language"):
+		Logger.warn("UserDataManager: User login but they have no language.")
+		teacher_settings.language = _device_settings.language
 	save_teacher_settings()
 	
 	if teacher_settings.students.keys().size() == 1:
@@ -299,6 +302,8 @@ func set_language_version(language: String, version: Dictionary) -> void:
 	if _device_settings:
 		_device_settings.language_versions[language] = version
 		_save_device_settings()
+	else:
+		Logger.warn("UserDataManager: Cannot set language version because device settings not found")
 
 func set_master_volume(value: float) -> void:
 	if _device_settings:
@@ -473,7 +478,7 @@ func get_student_progression_path(device: int = 0, student_code: int = 0) -> Str
 	elif device == 0 and student_code != 0:
 		return find_student_dir(student_code).path_join("progression.tres")
 	else:
-		var student_path: String ="user://".path_join(_device_settings.teacher).path_join(str(device)).path_join(_device_settings.language).path_join(str(student_code))
+		var student_path: String ="user://".path_join(_device_settings.teacher).path_join(str(device)).path_join(teacher_settings.language).path_join(str(student_code))
 		var remediation_path: String = student_path.path_join("progression.tres")
 		return remediation_path
 
@@ -509,7 +514,7 @@ func get_student_progression_for_code(device: int, code: int) -> StudentProgress
 	if not teacher_settings or not teacher_settings.students.has(device):
 		return
 	
-	var student_path: String ="user://".path_join(_device_settings.teacher).path_join(str(device)).path_join(_device_settings.language).path_join(str(code))
+	var student_path: String ="user://".path_join(_device_settings.teacher).path_join(str(device)).path_join(teacher_settings.language).path_join(str(code))
 	var progression_path: String = student_path.path_join("progression.tres")
 	
 	var progression: StudentProgression
@@ -528,7 +533,7 @@ func get_student_progression_for_code(device: int, code: int) -> StudentProgress
 	return progression
 
 func save_student_progression_for_code(device: int, code: int, progression: StudentProgression) -> void:
-	var progression_path: String = "user://".path_join(_device_settings.teacher).path_join(str(device)).path_join(_device_settings.language).path_join(str(code)).path_join("progression.tres")
+	var progression_path: String = "user://".path_join(_device_settings.teacher).path_join(str(device)).path_join(teacher_settings.language).path_join(str(code)).path_join("progression.tres")
 	var error: Error = ResourceSaver.save(progression, progression_path)
 	if error != OK:
 		Logger.error("UserDataManager: save_student_progression_for_code(device = %s, code = %s): error %s" % [str(device), str(code), error_string(error)])
@@ -554,7 +559,7 @@ func _get_student_remediation_path(device: int = 0, student_code: int = 0) -> St
 	elif device == 0 and student_code != 0:
 		return find_student_dir(student_code).path_join("remediation.tres")
 	else:
-		var student_path: String ="user://".path_join(_device_settings.teacher).path_join(str(device)).path_join(_device_settings.language).path_join(str(student_code))
+		var student_path: String ="user://".path_join(_device_settings.teacher).path_join(str(device)).path_join(teacher_settings.language).path_join(str(student_code))
 		var remediation_path: String = student_path.path_join("remediation.tres")
 		return remediation_path
 
@@ -717,8 +722,8 @@ func is_speech_played(speech: String) -> bool:
 func move_user_device_folder(old_device: String, new_device: String, student_code: int) -> void:
 	var parent_dir_path: String = "user://".path_join(_device_settings.teacher)
 	var parent_dir: DirAccess = DirAccess.open(parent_dir_path)
-	var old_child_dir: String = old_device.path_join(_device_settings.language).path_join(str(student_code))
-	var new_child_dir: String = new_device.path_join(_device_settings.language).path_join(str(student_code))
+	var old_child_dir: String = old_device.path_join(teacher_settings.language).path_join(str(student_code))
+	var new_child_dir: String = new_device.path_join(teacher_settings.language).path_join(str(student_code))
 	var new_parent_dir: String = new_child_dir.get_base_dir() # = "2/fr_FR"
 	if not parent_dir.dir_exists(new_parent_dir):
 		var err: Error = parent_dir.make_dir_recursive(new_parent_dir)
@@ -753,7 +758,7 @@ func _scan_teacher_devices(match_callback: Callable) -> String:
 		Logger.error("UserDataManager: Impossible to open teacher folder: %s" % teacher_path)
 		return ""
 
-	var language: String = _device_settings.language
+	var language: String = teacher_settings.language
 
 	dir.list_dir_begin()
 	var file_name: String = dir.get_next()

@@ -571,7 +571,9 @@ func get_word_sound_path(word: Dictionary) -> String:
 
 
 func get_kalulu_speech_path(speech_category: String, speech_name: String) -> String:
-	return BASE_PATH + language + LANGUAGE_SOUNDS + KALULU_FOLDER + speech_category + "_" + speech_name + SOUND_EXTENSION
+	var path: String = BASE_PATH + language + LANGUAGE_SOUNDS + KALULU_FOLDER + speech_category + "_" + speech_name + SOUND_EXTENSION
+	Logger.trace("Database: Loading kalulu speech at path %s" % path)
+	return path
 
 
 func load_external_sound(path: String) -> AudioStreamMP3:
