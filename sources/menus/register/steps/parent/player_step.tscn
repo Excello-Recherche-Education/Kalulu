@@ -44,6 +44,14 @@ rules = Array[ExtResource("5_hwl8b")]([SubResource("Resource_fybs1"), SubResourc
 [node name="PlayerStep" instance=ExtResource("1_ggdon")]
 question = "PLAYER_PROMPT"
 
+[node name="QuestionLabel" parent="PanelContainer/QuestionContainer/VBoxContainer" index="0"]
+theme_override_font_sizes/font_size = 100
+
+[node name="InfoLabel" parent="PanelContainer/QuestionContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(1500, 0)
+theme_override_font_sizes/font_size = 100
+autowrap_mode = 2
+
 [node name="LevelContainer" type="HBoxContainer" parent="FormValidator/FormBinder/Control/Background/FormMargin/FormContainer" index="0"]
 layout_mode = 2
 
@@ -51,7 +59,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 70
 text = "PLAYER_LEVEL"
 autowrap_mode = 3
 
@@ -62,7 +70,7 @@ size_flags_horizontal = 3
 [node name="LevelSelect" type="ItemList" parent="FormValidator/FormBinder/Control/Background/FormMargin/FormContainer/LevelContainer/VBoxContainer" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 80
 auto_height = true
 item_count = 3
 item_0/text = "BEGINNER"
@@ -93,7 +101,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 70
 text = "PLAYER_NAME"
 autowrap_mode = 3
 
@@ -103,7 +111,7 @@ size_flags_horizontal = 3
 
 [node name="NameField" type="LineEdit" parent="FormValidator/FormBinder/Control/Background/FormMargin/FormContainer/NameContainer/VBoxContainer" index="0"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 placeholder_text = "Kalulu"
 
 [node name="ControlBinder" type="Control" parent="FormValidator/FormBinder/Control/Background/FormMargin/FormContainer/NameContainer/VBoxContainer/NameField" index="0"]
@@ -128,7 +136,7 @@ layout_mode = 2
 [node name="AgeLabel" type="Label" parent="FormValidator/FormBinder/Control/Background/FormMargin/FormContainer/AgeContainer" index="0"]
 custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 70
 text = "PLAYER_AGE"
 autowrap_mode = 3
 

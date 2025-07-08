@@ -224,14 +224,14 @@ theme_override_constants/separation = 0
 [node name="LanguageLabel" type="Label" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/LanguageContainer"]
 visible = false
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 text = "LANGUAGE"
 
 [node name="LanguageField" type="OptionButton" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/LanguageContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"Combobox"
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 script = ExtResource("13_rs3hd")
 
 [node name="DeviceIDContainer" type="VBoxContainer" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer"]
@@ -242,7 +242,7 @@ theme_override_constants/separation = 0
 
 [node name="DeviceIDLabel" type="Label" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/DeviceIDContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 text = "DEVICE_ID"
 
 [node name="DeviceIDField" type="SpinBox" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/DeviceIDContainer"]
@@ -271,14 +271,14 @@ theme_override_constants/separation = 0
 visible = false
 layout_mode = 2
 theme = ExtResource("15_pcmnw")
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 110
 text = "EMAIL"
 
 [node name="EmailField" type="LineEdit" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/EmailContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"1"
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 placeholder_text = "EMAIL"
 virtual_keyboard_type = 5
 
@@ -298,13 +298,13 @@ theme_override_constants/separation = 0
 visible = false
 layout_mode = 2
 theme = ExtResource("15_pcmnw")
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 110
 text = "PASSWORD"
 
 [node name="PasswordField" type="LineEdit" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer/PasswordContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 placeholder_text = "PASSWORD"
 virtual_keyboard_type = 6
 secret = true
@@ -320,7 +320,7 @@ layout_mode = 2
 [node name="ValidateButton" type="Button" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer"]
 layout_mode = 2
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 text = "LOG_IN"
 
 [node name="LoginError" type="Label" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer"]
@@ -331,7 +331,7 @@ text = "INVALID_EMAIL_OR_PASSWORD"
 
 [node name="Register" type="Button" parent="KeyboardSpacer/LoginForm/LoginFormValidator/FormContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 text = "CREATE_ACCOUNT"
 metadata/_edit_use_anchors_ = true
 

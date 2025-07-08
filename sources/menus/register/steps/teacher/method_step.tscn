@@ -22,6 +22,14 @@ rules = Array[ExtResource("4_wmpac")]([SubResource("Resource_kw8sn")])
 question = "EDUCATION_METHOD_PROMPT"
 infos = "EDUCATION_METHOD_INFOS"
 
+[node name="QuestionLabel" parent="PanelContainer/QuestionContainer/VBoxContainer" index="0"]
+theme_override_font_sizes/font_size = 100
+
+[node name="InfoLabel" parent="PanelContainer/QuestionContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(1500, 0)
+theme_override_font_sizes/font_size = 100
+autowrap_mode = 2
+
 [node name="MethodContainer" type="HBoxContainer" parent="FormValidator/FormBinder/Control/Background/FormMargin/FormContainer" index="0"]
 layout_mode = 2
 
@@ -29,7 +37,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 100
 text = "EDUCATION_METHOD"
 autowrap_mode = 3
 
@@ -39,7 +47,7 @@ size_flags_horizontal = 3
 
 [node name="MethodSelect" type="ItemList" parent="FormValidator/FormBinder/Control/Background/FormMargin/FormContainer/MethodContainer/VBoxContainer" index="0"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 auto_height = true
 item_count = 2
 item_0/text = "METHOD_APP_ONLY"
