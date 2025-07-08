@@ -10,12 +10,18 @@ script = ExtResource("2_0vlqx")
 text = "VALIDATE"
 
 [node name="PanelContainer" parent="." index="2"]
-offset_left = -1024.0
-offset_right = 1024.0
-offset_bottom = 1344.0
+anchor_bottom = 0.9
 
 [node name="VBoxContainer" parent="PanelContainer/QuestionContainer" index="0"]
 visible = false
+
+[node name="QuestionLabel" parent="PanelContainer/QuestionContainer/VBoxContainer" index="0"]
+theme_override_font_sizes/font_size = 100
+
+[node name="InfoLabel" parent="PanelContainer/QuestionContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(1500, 0)
+theme_override_font_sizes/font_size = 100
+autowrap_mode = 2
 
 [node name="SummaryContainer" type="VBoxContainer" parent="PanelContainer/QuestionContainer" index="1"]
 layout_mode = 2
@@ -23,7 +29,7 @@ theme_override_constants/separation = 50
 
 [node name="Title" type="Label" parent="PanelContainer/QuestionContainer/SummaryContainer" index="0"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 120
 text = "REGISTRATION_SUMMARY"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -41,27 +47,27 @@ theme_override_constants/separation = 20
 [node name="Email" type="Label" parent="PanelContainer/QuestionContainer/SummaryContainer/ScrollContainer/VBoxContainer" index="0"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 100
 
 [node name="AccountType" type="Label" parent="PanelContainer/QuestionContainer/SummaryContainer/ScrollContainer/VBoxContainer" index="1"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 100
 
 [node name="EducationMethod" type="Label" parent="PanelContainer/QuestionContainer/SummaryContainer/ScrollContainer/VBoxContainer" index="2"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 100
 
 [node name="DevicesCount" type="Label" parent="PanelContainer/QuestionContainer/SummaryContainer/ScrollContainer/VBoxContainer" index="3"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 100
 
 [node name="StudentsCount" type="Label" parent="PanelContainer/QuestionContainer/SummaryContainer/ScrollContainer/VBoxContainer" index="4"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 100
 
 [node name="RecapContainer" type="VBoxContainer" parent="PanelContainer/QuestionContainer/SummaryContainer/ScrollContainer/VBoxContainer" index="5"]
 unique_name_in_owner = true

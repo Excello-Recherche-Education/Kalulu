@@ -12,4 +12,4 @@ func _process(_delta: float) -> void:
 		var margin: int = DisplayServer.virtual_keyboard_get_height()
 		if OS.get_name() == "Android":
 			margin = int(margin * screen_scale)
-		self["theme_override_constants/margin_bottom"] = maxi(floori(margin), 0)
+		add_theme_constant_override("margin_bottom", maxi(floori(margin), 0))

@@ -9,6 +9,14 @@ step_name = "devices"
 question = "DEVICE_COUNT_PROMPT"
 infos = "DEVICE_COUNT_INFOS"
 
+[node name="QuestionLabel" parent="PanelContainer/QuestionContainer/VBoxContainer" index="0"]
+theme_override_font_sizes/font_size = 100
+
+[node name="InfoLabel" parent="PanelContainer/QuestionContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(1500, 0)
+theme_override_font_sizes/font_size = 100
+autowrap_mode = 2
+
 [node name="DevicesCountContainer" type="HBoxContainer" parent="FormValidator/FormBinder/Control/Background/FormMargin/FormContainer" index="0"]
 layout_mode = 2
 
@@ -16,7 +24,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 100
 text = "DEVICES"
 autowrap_mode = 3
 
@@ -24,6 +32,7 @@ autowrap_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ux74f")
+theme_override_constants/buttons_width = 100
 min_value = 1.0
 max_value = 90.0
 value = 1.0

@@ -7,3 +7,6 @@ device_id = 1
 step_name = "players"
 question = "PARENT_STUDENT_COUNT_PROMPT"
 infos = "PARENT_STUDENT_COUNT_INFOS"
+
+[node name="PanelContainer" parent="." index="2"]
+anchor_top = 0.05
