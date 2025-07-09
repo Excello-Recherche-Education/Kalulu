@@ -19,7 +19,9 @@ func _on_validate_button_pressed() -> void:
 	
 	var res: Dictionary = await ServerManager.check_email((data as TeacherSettings).email as String)
 	if res.code != 200:
+		api_email_field_error.text = "USED_EMAIL_ADDRESS"
 		api_email_field_error.visible = true
+		# TODO : ADD MORE MESSAGES DEPENDING ON THE ERROR, NOT ALWAYS "USED_EMAIL_ADDRESS"
 		return
 	
 	if _on_next():

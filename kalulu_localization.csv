@@ -308,6 +308,7 @@ O editor do site se reserva o direito de modificar a política de privacidade pa
 
 ACCEPT_GENERAL_CONDITIONS,Accepter les conditions générales,Aceptar las condiciones generales,Aceitar termos e condições
 ACCEPT_GENERAL_CONDITIONS_ERROR,Veuillez accepter les conditions générales avant de continuer,Aceptar las condiciones generales antes de avanzar,Aceite os termos e condições antes de continuar
+USED_EMAIL_ADDRESS,Adresse e-mail déjà utilisée,Dirección de correo electrónico ya utilizada,Endereço de e-mail já utilizado
 REGISTRATION_SUMMARY,Récapitulatif de l’inscription,Resumen del registro,Resumo do registro
 VALIDATE,Confirmer,Confirmar,Confirmar
 SUMMARY_EMAIL,Adresse email : {mail},Correo electrónico: {mail},Endereço de e-mail : {mail}
