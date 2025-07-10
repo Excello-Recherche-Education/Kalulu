@@ -51,6 +51,8 @@ func connect_to_db() -> void:
 		db.close_db()
 	if FileAccess.file_exists(db.path):
 		is_open = db.open_db()
+		if not is_open:
+			Logger.error("Database: Failed to open DB at %s" % db.path)
 	else:
 		Logger.warn("Database: DB file not found at %s" % db.path)
 

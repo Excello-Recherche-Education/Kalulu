@@ -158,7 +158,9 @@ func _copy_data(this: PackageDownloader) -> void:
 	
 	# Extract the archive
 	var subfolder: String = unzipper.extract(language_zip_path, USER_LANGUAGE_RESOURCES_PATH, false)
-	
+	if subfolder == "":
+		Logger.error("PackageDownloader: Extraction failed for %s" % language_zip_path)
+		return
 	# Move the data to the locale folder of the user
 	var error: Error = DirAccess.rename_absolute(USER_LANGUAGE_RESOURCES_PATH.path_join(subfolder), current_language_path)
 	if error != OK:
@@ -206,11 +208,18 @@ func delete_directory_recursive(path: String) -> void:
 
 func _delete_dir(path: String) -> void:
 	var dir: DirAccess = DirAccess.open(path)
+	if dir == null:
+		Logger.error("PackageDownloader: Cannot delete directory, folder does not exists: %s" % path)
+		return
 	for file: String in dir.get_files():
-		dir.remove(file)
+		var err: Error = dir.remove(file)
+		if err != OK:
+			Logger.error("PackageDownloader: Error " + error_string(err) + " while deleting file: %s" % file)
 	for subfolder: String in dir.get_directories():
 		_delete_dir(path.path_join(subfolder))
-		dir.remove(subfolder)
+		var err: Error = dir.remove(subfolder)
+		if err != OK:
+			Logger.error("PackageDownloader: Error " + error_string(err) + " while deleting folder: %s" % subfolder)
 
 
 func _show_error(error: int) -> void:

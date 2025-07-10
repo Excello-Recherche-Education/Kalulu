@@ -236,7 +236,15 @@ func _on_word_gui_input(event: InputEvent) -> void:
 
 
 func _on_list_title_import_path_selected(path: String, match_to_file: bool) -> void:
+	if not FileAccess.file_exists(path):
+		Logger.error("WordList: File not found %s" % path)
+		error_label.text = "File not found"
+		return
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		Logger.error("WordList: Cannot open file %s" % path)
+		error_label.text = "Cannot open file"
+		return
 	var line: PackedStringArray = file.get_csv_line()
 	if line.size() < 2 or line[0] != "ORTHO" or line[1] != "GPMATCH":
 		error_label.text = "Column names should be ORTHO, GPMATCH"
