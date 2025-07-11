@@ -43,6 +43,28 @@ func _ready() -> void:
 		_show_error(0)
 		return
 	
+	if teacher_settings._language == "":
+		if not UserDataManager.get_device_settings():
+			if not await ServerManager.check_internet_access():
+				Logger.error("PackageDownloader: Without internet access, and without any local data, there is no way of knowing the user language")
+				UserDataManager.logout()
+				_show_error(0)
+				return
+			else:
+				var config_res: Dictionary = await ServerManager.get_configuration()
+				if not config_res.code == 200:
+					Logger.error("PackageDownloader: Error getting configuration from server. Error code " + str(config_res.code))
+					UserDataManager.logout()
+					_show_error(2)
+					return
+				if config_res.has("body") and (config_res.body as Dictionary).has("language"):
+					teacher_settings.language = config_res.body.language
+				else:
+					Logger.error("PackageDownloader: Error getting language of user from server configuration, message is not formatted as intended")
+					UserDataManager.logout()
+					_show_error(2)
+					return
+	
 	user_language = teacher_settings.language
 	current_language_path = USER_LANGUAGE_RESOURCES_PATH.path_join(user_language)
 	current_language_version = UserDataManager.get_device_settings().language_versions.get(user_language, {})
@@ -74,7 +96,7 @@ func _ready() -> void:
 	
 	# If the language pack is not already downloaded or an update is needed
 	if not DirAccess.dir_exists_absolute(current_language_path) or current_language_version != server_language_version:
-		Logger.trace("A new version of the language pack has been detected.\n    Current version = " + str(current_language_version) + "\n    Server version = " + str(server_language_version))
+		Logger.trace("PackageDownloader: A new version of the language pack has been detected.\n    Current version = " + str(current_language_version) + "\n    Server version = " + str(server_language_version))
 		
 		checking_label.hide()
 		download_label.show()
@@ -174,7 +196,7 @@ func _copy_data(this: PackageDownloader) -> void:
 func _show_error(error: int) -> void:
 	error_popup.content_text = ERROR_MESSAGES[error]
 	error_popup.show()
-	
+
 
 
 func _go_to_main_menu() -> void:

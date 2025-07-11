@@ -14,8 +14,16 @@ enum EducationMethod {
 	Complete
 }
 
-@export var account_type: AccountType
-@export var education_method: EducationMethod
+@export var account_type: AccountType:
+	set(value):
+		if account_type != value:
+			last_modified = Time.get_datetime_string_from_system(true)
+		account_type = value
+@export var education_method: EducationMethod:
+	set(value):
+		if education_method != value:
+			last_modified = Time.get_datetime_string_from_system(true)
+		education_method = value
 var devices_count: int
 @export var students: Dictionary[int, Array] = {} # int (device): Array[StudentData]
 @export var email: String
@@ -28,12 +36,19 @@ var language: String:
 		return _language if _language != "" else _get_default_language()
 	set(value):
 		_language = value
+		language = value
 		Database.language = value
+		UserDataManager.set_language(value)
 		TranslationServer.set_locale(value)
 		Logger.trace("TeacherSettings: language SET: " + TranslationServer.get_locale())
 
 func _get_default_language() -> String:
 	Logger.warn("TeacherSettings: get_language called but language is empty, returning device language by default. This should not happen.")
+	if not UserDataManager.get_device_settings():
+		Logger.error("TeacherSettings: get_language called but language is empty and device settings is null. This should not be possible.")
+		return ""
+	if UserDataManager.get_device_settings().language == "":
+		Logger.error("TeacherSettings: get_language called but language is empty and device settings language is empty. This should not be possible.")
 	return UserDataManager.get_device_settings().language
 
 func update_from_dict(dict: Dictionary) -> void:
