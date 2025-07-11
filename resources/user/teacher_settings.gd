@@ -12,24 +12,41 @@ enum EducationMethod {
 
 const AVAILABLE_CODES: Array[int] = [123, 124, 125, 126, 132, 134, 135, 136, 142, 143, 145, 146, 152, 153, 154, 213, 214, 215, 216, 231, 234, 235, 236, 241, 243, 245, 246, 251, 253, 254, 321, 324, 325, 326, 312, 314, 315, 316, 342, 341, 345, 346, 352, 351, 354, 423, 421, 425, 426, 432, 431, 435, 436, 412, 413, 415, 416, 452, 453, 451, 523, 524, 521, 526, 532, 534, 531, 536, 542, 543, 541, 546, 512, 513, 514, 623, 624, 625, 621, 632, 634, 635, 631, 642, 643, 645, 641, 652, 653, 654]
 
-@export var account_type: AccountType
-@export var education_method: EducationMethod
+@export var account_type: AccountType:
+	set(value):
+		if account_type != value:
+			last_modified = Time.get_datetime_string_from_system(true)
+		account_type = value
+@export var education_method: EducationMethod:
+	set(value):
+		if education_method != value:
+			last_modified = Time.get_datetime_string_from_system(true)
+		education_method = value
+
 @export var students: Dictionary[int, Array] = {} # int (device): Array[StudentData]
 @export var email: String
 @export var token: String
 @export var last_modified: String = ""
 @export var _language: String = "" # internal variable exported by the inspector
+
 var language: String:
 	get:
 		return _language if _language != "" else _get_default_language()
 	set(value):
 		_language = value
+		language = value
 		Database.language = value
+		UserDataManager.set_language(value)
 		TranslationServer.set_locale(value)
 		Logger.trace("TeacherSettings: language SET: " + TranslationServer.get_locale())
 
 func _get_default_language() -> String:
 	Logger.warn("TeacherSettings: get_language called but language is empty, returning device language by default. This should not happen.")
+	if not UserDataManager.get_device_settings():
+		Logger.error("TeacherSettings: get_language called but language is empty and device settings is null. This should not be possible.")
+		return ""
+	if UserDataManager.get_device_settings().language == "":
+		Logger.error("TeacherSettings: get_language called but language is empty and device settings language is empty. This should not be possible.")
 	return UserDataManager.get_device_settings().language
 
 var devices_count: int

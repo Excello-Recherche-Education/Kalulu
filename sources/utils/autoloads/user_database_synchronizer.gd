@@ -227,6 +227,7 @@ func _build_message_to_server(need_update_user: UpdateNeeded, need_update_studen
 			"account_type": UserDataManager.teacher_settings.account_type,
 			"education_method": UserDataManager.teacher_settings.education_method,
 			"last_modified": UserDataManager.teacher_settings.last_modified
+			# Warning: user cannot change language
 		}
 	elif need_update_user == UpdateNeeded.FromServer:
 		message_to_server["user"] = {"need_update": true}

@@ -49,7 +49,6 @@ func _ready() -> void:
 func _on_account_type_option_button_item_selected(index: int) -> void:
 	if TeacherSettings.AccountType.values().has(index):
 		UserDataManager.teacher_settings.account_type = index as TeacherSettings.AccountType
-		UserDataManager.teacher_settings.last_modified = Time.get_datetime_string_from_system(true)
 		UserDataManager.save_teacher_settings()
 	else:
 		Log.warn("SettingsTeacherSettings: Cannot assign index %d to AccountType" % index)
@@ -57,7 +56,6 @@ func _on_account_type_option_button_item_selected(index: int) -> void:
 
 func _on_education_method_option_button_item_selected(index: int) -> void:
 	if TeacherSettings.EducationMethod.values().has(index):
-		UserDataManager.teacher_settings.education_method = index as TeacherSettings.EducationMethod
 		UserDataManager.teacher_settings.last_modified = Time.get_datetime_string_from_system(true)
 		UserDataManager.save_teacher_settings()
 	else:
