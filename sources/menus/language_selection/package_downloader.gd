@@ -43,27 +43,28 @@ func _ready() -> void:
 		_show_error(0)
 		return
 	
+	Logger.debug("teacher_settings._language = " + teacher_settings._language)
+	Logger.debug("UserDataManager.get_device_settings() ? = " + "true" if UserDataManager.get_device_settings() else "false")
+	if UserDataManager.get_device_settings():
+		Logger.debug("UserDataManager.get_device_settings().language = " + UserDataManager.get_device_settings().language)
+	
 	if teacher_settings._language == "":
-		if not UserDataManager.get_device_settings():
-			if not await ServerManager.check_internet_access():
-				Logger.error("PackageDownloader: Without internet access, and without any local data, there is no way of knowing the user language")
+		if not await ServerManager.check_internet_access():
+			Logger.error("PackageDownloader: Without internet access, there is no way of knowing the user language, fallback to device settings")
+		else:
+			var config_res: Dictionary = await ServerManager.get_configuration()
+			if not config_res.code == 200:
+				Logger.error("PackageDownloader: Error getting configuration from server. Error code " + str(config_res.code))
 				UserDataManager.logout()
-				_show_error(0)
+				_show_error(2)
 				return
+			if config_res.has("body") and (config_res.body as Dictionary).has("language"):
+				teacher_settings.language = config_res.body.language
 			else:
-				var config_res: Dictionary = await ServerManager.get_configuration()
-				if not config_res.code == 200:
-					Logger.error("PackageDownloader: Error getting configuration from server. Error code " + str(config_res.code))
-					UserDataManager.logout()
-					_show_error(2)
-					return
-				if config_res.has("body") and (config_res.body as Dictionary).has("language"):
-					teacher_settings.language = config_res.body.language
-				else:
-					Logger.error("PackageDownloader: Error getting language of user from server configuration, message is not formatted as intended")
-					UserDataManager.logout()
-					_show_error(2)
-					return
+				Logger.error("PackageDownloader: Error getting language of user from server configuration, message is not formatted as intended")
+				UserDataManager.logout()
+				_show_error(2)
+				return
 	
 	user_language = teacher_settings.language
 	current_language_path = USER_LANGUAGE_RESOURCES_PATH.path_join(user_language)
