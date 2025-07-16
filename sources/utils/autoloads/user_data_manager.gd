@@ -43,7 +43,7 @@ func purge_user_folders_if_needed() -> void:
 	var current_version: String = ProjectSettings.get_setting("application/config/version")
 	var previous_version: String = _device_settings.game_version
 	
-	if previous_version == "" or compare_versions(previous_version, "2.1.3") < 0:
+	if previous_version == "" or compare_versions(previous_version, "2.1.3") < 0 or compare_versions(previous_version, "2.1.4") < 0:
 		Logger.trace("UserDataManager: Version difference detected, need to purge user folder to avoid data incompatibility")
 		var dir: DirAccess = DirAccess.open("user://")
 		if dir:
