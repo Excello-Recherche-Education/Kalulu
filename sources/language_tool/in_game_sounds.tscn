@@ -9,4 +9,15 @@ script = ExtResource("2_hmn1q")
 [node name="MarginContainer2" parent="VBoxContainer/PanelContainer/HBoxContainer" index="1"]
 visible = false
 
+[node name="PanelContainerNormalizer" type="PanelContainer" parent="VBoxContainer" index="3"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/PanelContainerNormalizer" index="0"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "   Normalize sounds   "
+
+[connection signal="pressed" from="VBoxContainer/PanelContainerNormalizer/Button" to="." method="_on_normalize_sounds_button_pressed"]
+
 [editable path="VBoxContainer/PanelContainer/HBoxContainer/BackButton"]

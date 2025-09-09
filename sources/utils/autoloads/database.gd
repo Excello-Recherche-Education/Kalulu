@@ -570,20 +570,24 @@ func get_gp_look_and_learn_video_path(gp: Dictionary) -> String:
 	return BASE_PATH + language + LOOK_AND_LEARN_VIDEOS + get_gp_name(gp) + VIDEO_EXTENSION
 
 
+func get_language_sound_path() -> String:
+	return BASE_PATH + language + LANGUAGE_SOUNDS
+
+
 func get_gp_sound_path(gp: Dictionary) -> String:
-	return BASE_PATH + language + LANGUAGE_SOUNDS + Database.get_gp_name(gp) + SOUND_EXTENSION
+	return get_language_sound_path() + Database.get_gp_name(gp) + SOUND_EXTENSION
 
 
 func get_syllable_sound_path(syllable: Dictionary) -> String:
-	return BASE_PATH + language + LANGUAGE_SOUNDS + syllable.Grapheme + SOUND_EXTENSION
+	return get_language_sound_path() + syllable.Grapheme + SOUND_EXTENSION
 
 
 func get_word_sound_path(word: Dictionary) -> String:
-	return BASE_PATH + language + LANGUAGE_SOUNDS + word.Word + SOUND_EXTENSION
+	return get_language_sound_path() + word.Word + SOUND_EXTENSION
 
 
 func get_kalulu_speech_path(speech_category: String, speech_name: String) -> String:
-	return BASE_PATH + language + LANGUAGE_SOUNDS + KALULU_FOLDER + speech_category + "_" + speech_name + SOUND_EXTENSION
+	return get_language_sound_path() + KALULU_FOLDER + speech_category + "_" + speech_name + SOUND_EXTENSION
 
 
 func load_external_sound(path: String) -> AudioStreamMP3:
