@@ -2,8 +2,6 @@
 class_name Crab
 extends Control
 
-signal crab_hit(stimulus: Dictionary)
-
 var sounds: Array[AudioStreamMP3] = [
 	preload("res://assets/minigames/crabs/audio/sfx/crab_random_1.mp3"),
 	preload("res://assets/minigames/crabs/audio/sfx/crab_random_2.mp3"),
@@ -83,7 +81,6 @@ func _set_stimulus(value: Dictionary) -> void:
 
 
 func _on_button_pressed() -> void:
-	crab_hit.emit(stimulus)
 	animated_sprite.play("hit")
 
 
