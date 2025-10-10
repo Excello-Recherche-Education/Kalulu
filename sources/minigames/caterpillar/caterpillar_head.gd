@@ -1,4 +1,3 @@
-@tool
 class_name CaterpillarHead
 extends Node2D
 
