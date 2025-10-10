@@ -1,4 +1,3 @@
-@tool
 class_name Branch
 extends Node2D
 
