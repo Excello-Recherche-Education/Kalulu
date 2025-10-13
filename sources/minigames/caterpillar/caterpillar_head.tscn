@@ -305,8 +305,7 @@ offset_right = 656.0
 offset_bottom = -260.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(410, -410)
-scale = Vector2(2, 2)
+position = Vector2(208, -208)
 sprite_frames = SubResource("SpriteFrames_x8rro")
 animation = &"spit"
 autoplay = "idle"
