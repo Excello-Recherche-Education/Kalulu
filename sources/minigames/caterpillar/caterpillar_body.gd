@@ -1,4 +1,3 @@
-@tool
 class_name CaterpillarBody
 extends Node2D
 
