@@ -12,9 +12,9 @@ func _ready() -> void:
 
 func idle() -> void:
 	if randf() < 0.8:
-		animated_sprite.play("idle1")
+		animated_sprite.play("idle")
 	else:
-		animated_sprite.play("idle2")
+		animated_sprite.play("idle_blink")
 
 
 func eat() -> void:
