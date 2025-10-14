@@ -13,7 +13,7 @@ var is_eating: bool = false
 
 @onready var head: CaterpillarHead = $Head
 @onready var body_parts: Node2D = $BodyParts
-@onready var tail: Node2D = $Tail
+@onready var tail: Sprite2D = $Tail
 
 
 func idle() -> void:

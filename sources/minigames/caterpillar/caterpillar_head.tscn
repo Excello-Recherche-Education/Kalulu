@@ -305,10 +305,10 @@ offset_right = 656.0
 offset_bottom = -260.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(208, -208)
 sprite_frames = SubResource("SpriteFrames_x8rro")
-animation = &"spit"
+animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.6966647
 
 [node name="CaterpillarAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("26_f75m3")
