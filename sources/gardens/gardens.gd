@@ -585,6 +585,7 @@ func add_gardens() -> void:
 
 		var lessons_for_garden: int = distribution[layout_index]
 		garden_layout.lesson_buttons.resize(lessons_for_garden)
+		garden.resize_buttons_controls(lessons_for_garden)
 
 		garden.garden_layout = garden_layout
 
