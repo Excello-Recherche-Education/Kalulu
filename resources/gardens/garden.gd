@@ -128,3 +128,13 @@ func pop_animation() -> void:
 
 func get_progress_ratio() -> float:
 	return current_progression / max_progression
+
+
+func resize_buttons_controls(count: int) -> void:
+	Log.trace("Garden %d resize buttons to %d" % [garden_index, count])
+	while lesson_button_controls.size() > 1:
+		lesson_button_controls.pop_back()
+	while lesson_button_controls.size() < count:
+		var new_button: LessonButton = lesson_button_controls[0].duplicate()
+		# TODO DOESNT WORK, INIT OF THESE BUTTONS IS VERY COMPLICATED
+		lesson_button_controls.push_back(new_button)
