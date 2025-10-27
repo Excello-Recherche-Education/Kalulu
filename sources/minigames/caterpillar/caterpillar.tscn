@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqx0qux4msnm7"]
+[gd_scene load_steps=5 format=3 uid="uid://cqx0qux4msnm7"]
 
 [ext_resource type="Script" uid="uid://ui362fnglx0k" path="res://sources/minigames/caterpillar/caterpillar.gd" id="1_addut"]
-[ext_resource type="PackedScene" uid="uid://dryu60mtiqv3" path="res://sources/minigames/caterpillar/caterpillar_body.tscn" id="2_vrjdf"]
 [ext_resource type="Texture2D" uid="uid://cmhvrs2jaqhwd" path="res://assets/minigames/caterpillar/graphics/caterpillar_tail.png" id="4_noi0q"]
 [ext_resource type="PackedScene" uid="uid://cm7e5ir8ykhpv" path="res://sources/minigames/caterpillar/caterpillar_head.tscn" id="17_ty72k"]
 
@@ -13,20 +12,20 @@ script = ExtResource("1_addut")
 
 [node name="BodyParts" type="Node2D" parent="."]
 
-[node name="CaterpillarBody" parent="BodyParts" instance=ExtResource("2_vrjdf")]
-
 [node name="Head" parent="." instance=ExtResource("17_ty72k")]
-position = Vector2(300, -180)
+position = Vector2(168, 0)
 
 [node name="EatArea2D" type="Area2D" parent="Head"]
+position = Vector2(184, -128)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/EatArea2D"]
 position = Vector2(200, 0)
 shape = SubResource("RectangleShape2D_6qw72")
 
-[node name="Tail" type="Sprite2D" parent="."]
-position = Vector2(0, -90)
+[node name="Tail" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Tail"]
+position = Vector2(88, -99)
 texture = ExtResource("4_noi0q")
 
 [connection signal="area_entered" from="Head/EatArea2D" to="." method="_on_eat_area_2d_area_entered"]
-[connection signal="body_entered" from="Head/EatArea2D" to="." method="_on_eat_area_2d_body_entered"]

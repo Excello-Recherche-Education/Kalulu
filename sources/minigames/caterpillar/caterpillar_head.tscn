@@ -299,12 +299,13 @@ animations = [{
 script = ExtResource("1_775bq")
 
 [node name="SpitFX" parent="." instance=ExtResource("28_vojnm")]
-offset_left = 656.0
-offset_top = -260.0
-offset_right = 656.0
-offset_bottom = -260.0
+offset_left = 320.0
+offset_top = -120.0
+offset_right = 320.0
+offset_bottom = -120.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(184, -184)
 sprite_frames = SubResource("SpriteFrames_x8rro")
 animation = &"idle"
 autoplay = "idle"

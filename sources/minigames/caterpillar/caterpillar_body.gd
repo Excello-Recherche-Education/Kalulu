@@ -13,12 +13,12 @@ var gp: Dictionary = {}:
 var margin: float = 1.0
 var base_width: int = 10 # Minimal width of the body
 
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var label: Label = $Label
-@onready var right_FX: RightFX = $RightFX
-@onready var body_left: Sprite2D = $Sprite2D_Body_Left
-@onready var body_center: TextureRect = $TextureRect_Body_Center
-@onready var body_right: Sprite2D = $Sprite2D_Body_Right
+# @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var label: Label = %Label
+@onready var right_FX: RightFX = %RightFX
+@onready var body_left: Sprite2D = %Sprite2D_Body_Left
+@onready var body_center: TextureRect = %TextureRect_Body_Center
+@onready var body_right: Sprite2D = %Sprite2D_Body_Right
 
 
 func _ready() -> void:
@@ -26,11 +26,13 @@ func _ready() -> void:
 
 
 func idle() -> void:
-	animated_sprite.play("idle")
+	pass
+	# animated_sprite.play("idle")
 
 
 func walk() -> void:
-	animated_sprite.play("walk")
+	pass
+	# animated_sprite.play("walk")
 
 
 func right() -> void:
@@ -38,15 +40,20 @@ func right() -> void:
 	await right_FX.finished
 
 
+func get_width() -> float:
+	label.reset_size()
+	var text_w: float = label.size.x
+	var end_width: float = max(float(base_width), text_w + float(margin) * 2.0)
+	return end_width
+
+
 func resize_body() -> void:
 	var letters_count: int = label.text.length()
 	if letters_count <= 0:
 		return
 	
-	label.reset_size()
-	await get_tree().process_frame
+	# await get_tree().process_frame
 	
-	var start_width: float = body_center.size.x
 	var text_w: float = label.size.x
 	var end_width: float = max(float(base_width), text_w + float(margin) * 2.0)
 	var center_h: float = float(body_center.texture.get_height())
@@ -59,6 +66,7 @@ func resize_body() -> void:
 		body_center.size = Vector2(width, center_h)
 		_update_body_layout()
 	
+	var start_width: float = body_center.size.x
 	tween.tween_method(apply_width, start_width, end_width, 0.5)
 
 
