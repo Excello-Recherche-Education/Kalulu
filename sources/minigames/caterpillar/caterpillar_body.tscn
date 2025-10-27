@@ -43,5 +43,5 @@ unique_name_in_owner = true
 offset_right = 163.0
 offset_bottom = 121.0
 theme_override_fonts/font = ExtResource("18_8jigi")
-text = "abc"
+text = "e"
 label_settings = ExtResource("15_7eh5m")

@@ -79,26 +79,28 @@ func eat_berry(berry: Berry) -> void:
 	body_part = BODY_PART_SCENE.instantiate()
 	body_parts.add_child(body_part)
 	#await get_tree().create_timer(3.0).timeout
-	#await get_tree().process_frame
 	body_part.gp = berry.gp
-	var side_pos: Vector2 = Vector2(head.position.x + SIDE_WIDTH, head.position.y)
-	var pos: Vector2 = Vector2(head.position.x + body_part.get_width(), head.position.y)
-
+	#await get_tree().process_frame
 	
+	var body_pos: Vector2 = Vector2(head.position.x, head.position.y)
+	var body_part_size: float = body_part.get_width()
+	var new_head_pos: Vector2 = Vector2(head.position.x + body_part_size, head.position.y)
 	if body_parts.get_child_count() > 0:
 		var body_side: Node2D = BODY_SIDE_SCENE.instantiate()
 		body_parts.add_child(body_side)
-		body_side.position = side_pos
-		pos.x += SIDE_WIDTH
-	body_part.position = pos
+		body_side.position = Vector2(head.position.x, head.position.y)
+		body_pos = Vector2(body_pos.x + SIDE_WIDTH, body_pos.y)
+		new_head_pos = Vector2(new_head_pos.x + SIDE_WIDTH, new_head_pos.y)
+		#body_pos.x -= SIDE_WIDTH
+	body_part.position = body_pos
 	#body_part.modulate.a = 0
-	body_part.scale.x = 0
+	#body_part.scale.x = 0
 	
-	tween.tween_property(head, "position", pos, .2)
-	tween.parallel().tween_property(berry, "global_position:x",head.global_position.x + body_part.get_width() * 2, .2)
+	tween.tween_property(head, "position", body_pos, .2)
+	tween.parallel().tween_property(berry, "global_position:x",head.global_position.x + body_part_size * 2, .2)
 	tween.parallel().tween_property(berry, "modulate:a", 0, .2)
 	#tween.parallel().tween_property(body_part, "modulate:a", 1, .5)
-	tween.parallel().tween_property(body_part, "scale:x", 1, .2)
+	#tween.parallel().tween_property(body_part, "scale:x", 1, .2)
 	#else:
 		#tween.tween_property(berry, "global_position:x", head.global_position.x + BODY_PART_WIDTH * 2, 0.2)
 		#tween.parallel().tween_property(berry, "modulate:a", 0, 1)

@@ -44,6 +44,7 @@ func get_width() -> float:
 	label.reset_size()
 	var text_w: float = label.size.x
 	var end_width: float = max(float(base_width), text_w + float(margin) * 2.0)
+	Log.debug(str(end_width))
 	return end_width
 
 
@@ -54,8 +55,7 @@ func resize_body() -> void:
 	
 	# await get_tree().process_frame
 	
-	var text_w: float = label.size.x
-	var end_width: float = max(float(base_width), text_w + float(margin) * 2.0)
+	var end_width: float = get_width()
 	var center_h: float = float(body_center.texture.get_height())
 	
 	var tween: Tween = get_tree().create_tween()
