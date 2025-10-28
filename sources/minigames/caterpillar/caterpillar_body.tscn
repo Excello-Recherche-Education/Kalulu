@@ -1,6 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dryu60mtiqv3"]
+[gd_scene load_steps=10 format=3 uid="uid://dryu60mtiqv3"]
 
 [ext_resource type="Script" uid="uid://ynqc2tqeuqt3" path="res://sources/minigames/caterpillar/caterpillar_body.gd" id="1_vvkkg"]
+[ext_resource type="PackedScene" uid="uid://bqa4621i20qep" path="res://sources/minigames/caterpillar/caterpillar_leg_back.tscn" id="2_780g7"]
+[ext_resource type="PackedScene" uid="uid://c443tr2tw7r87" path="res://sources/minigames/caterpillar/caterpillar_leg_front.tscn" id="9_20a20"]
 [ext_resource type="PackedScene" uid="uid://cn2rw06pltyiu" path="res://sources/utils/fx/right.tscn" id="14_cyw4o"]
 [ext_resource type="Texture2D" uid="uid://dkc630ptqucrp" path="res://assets/minigames/caterpillar/graphics/caterpillar_body_left.png" id="15_2xyl2"]
 [ext_resource type="LabelSettings" uid="uid://bguqnhiblwick" path="res://resources/themes/minigames_label_settings.tres" id="15_7eh5m"]
@@ -13,6 +15,9 @@ script = ExtResource("1_vvkkg")
 
 [node name="Position" type="Node2D" parent="."]
 position = Vector2(0, -150)
+
+[node name="CaterpillarLegBack" parent="Position" instance=ExtResource("2_780g7")]
+position = Vector2(40, 140)
 
 [node name="RightFX" parent="Position" instance=ExtResource("14_cyw4o")]
 unique_name_in_owner = true
@@ -50,3 +55,6 @@ offset_bottom = 121.0
 theme_override_fonts/font = ExtResource("18_8jigi")
 text = "e"
 label_settings = ExtResource("15_7eh5m")
+
+[node name="CaterpillarLegFront" parent="Position" instance=ExtResource("9_20a20")]
+position = Vector2(40, 140)
