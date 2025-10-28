@@ -86,7 +86,7 @@ func eat_berry(berry: Berry) -> void:
 	Log.debug("Start Head position = %s" % str(head.position))
 	var new_body_pos: Vector2 = Vector2(head.position.x, head.position.y)
 	var new_body_part_size: float = body_part.get_width()
-	var new_head_pos: Vector2 = Vector2(head.position.x + new_body_part_size  + 25, head.position.y)
+	var new_head_pos: Vector2 = Vector2(head.position.x + new_body_part_size  + 22, head.position.y)
 	Log.debug("1 New Head position = %s" % str(new_head_pos))
 	if body_parts.get_child_count() > 1:
 		var body_side: Node2D = BODY_SIDE_SCENE.instantiate()

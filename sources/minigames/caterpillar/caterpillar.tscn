@@ -13,7 +13,7 @@ script = ExtResource("1_addut")
 [node name="BodyParts" type="Node2D" parent="."]
 
 [node name="Head" parent="." instance=ExtResource("17_ty72k")]
-position = Vector2(168, 0)
+position = Vector2(165, 0)
 
 [node name="EatArea2D" type="Area2D" parent="Head"]
 position = Vector2(184, -128)

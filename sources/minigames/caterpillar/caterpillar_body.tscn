@@ -12,7 +12,7 @@
 script = ExtResource("1_vvkkg")
 
 [node name="Position" type="Node2D" parent="."]
-position = Vector2(0, -114)
+position = Vector2(0, -150)
 
 [node name="RightFX" parent="Position" instance=ExtResource("14_cyw4o")]
 unique_name_in_owner = true
