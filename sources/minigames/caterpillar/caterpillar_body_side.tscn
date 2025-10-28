@@ -5,5 +5,6 @@
 [node name="Position" type="Node2D"]
 
 [node name="CaterpillarBodySide" type="Sprite2D" parent="."]
-position = Vector2(5.5, -94)
+position = Vector2(5.5, -98)
+scale = Vector2(1, 1.4)
 texture = ExtResource("1_msoev")

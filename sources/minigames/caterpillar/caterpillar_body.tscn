@@ -21,25 +21,30 @@ offset_top = -128.0
 offset_right = 64.0
 offset_bottom = -128.0
 
-[node name="Sprite2D_Body_Left" type="Sprite2D" parent="Position"]
+[node name="Node2D" type="Node2D" parent="Position"]
+position = Vector2(0, -29)
+scale = Vector2(1, 1.4)
+
+[node name="Sprite2D_Body_Left" type="Sprite2D" parent="Position/Node2D"]
 unique_name_in_owner = true
 texture = ExtResource("15_2xyl2")
 centered = false
 
-[node name="TextureRect_Body_Center" type="TextureRect" parent="Position"]
+[node name="TextureRect_Body_Center" type="TextureRect" parent="Position/Node2D"]
 unique_name_in_owner = true
 offset_right = 9.0
 offset_bottom = 114.0
 texture = ExtResource("16_8jigi")
 stretch_mode = 1
 
-[node name="Sprite2D_Body_Right" type="Sprite2D" parent="Position"]
+[node name="Sprite2D_Body_Right" type="Sprite2D" parent="Position/Node2D"]
 unique_name_in_owner = true
 texture = ExtResource("17_rhhiw")
 centered = false
 
 [node name="Label" type="Label" parent="Position"]
 unique_name_in_owner = true
+offset_top = -10.0
 offset_right = 163.0
 offset_bottom = 121.0
 theme_override_fonts/font = ExtResource("18_8jigi")
