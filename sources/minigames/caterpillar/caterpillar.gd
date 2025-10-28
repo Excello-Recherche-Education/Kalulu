@@ -43,8 +43,9 @@ func move(distance: float) -> void:
 	# Move body
 	for index: int in range(body_parts.get_child_count(false)):
 		await get_tree().create_timer(BODY_PART_WAIT_TIME).timeout
-		var body_part: CaterpillarBody = body_parts.get_child(-index-1)
-		coroutine.add_future(_tween_body_part(body_part, distance).finished)
+		var body_part: Node = body_parts.get_child(-index-1)
+		if body_part is CaterpillarBody:
+			coroutine.add_future(_tween_body_part(body_part as CaterpillarBody, distance).finished)
 	
 	# Move tail
 	var scene_tree: SceneTree = get_tree()
@@ -68,7 +69,7 @@ func eat_berry(berry: Berry) -> void:
 	is_eating = true
 	
 	var body_part: CaterpillarBody
-	var tween: Tween = create_tween()
+	#var tween: Tween = create_tween()
 	
 	# Check if there is only one empty body part
 	if body_parts.get_child_count() == 1:
@@ -82,23 +83,27 @@ func eat_berry(berry: Berry) -> void:
 	body_part.gp = berry.gp
 	#await get_tree().process_frame
 	
-	var body_pos: Vector2 = Vector2(head.position.x, head.position.y)
-	var body_part_size: float = body_part.get_width()
-	var new_head_pos: Vector2 = Vector2(head.position.x + body_part_size, head.position.y)
-	if body_parts.get_child_count() > 0:
+	Log.debug("Start Head position = %s" % str(head.position))
+	var new_body_pos: Vector2 = Vector2(head.position.x, head.position.y)
+	var new_body_part_size: float = body_part.get_width()
+	var new_head_pos: Vector2 = Vector2(head.position.x + new_body_part_size  + 25, head.position.y)
+	Log.debug("1 New Head position = %s" % str(new_head_pos))
+	if body_parts.get_child_count() > 1:
 		var body_side: Node2D = BODY_SIDE_SCENE.instantiate()
 		body_parts.add_child(body_side)
 		body_side.position = Vector2(head.position.x, head.position.y)
-		body_pos = Vector2(body_pos.x + SIDE_WIDTH, body_pos.y)
-		new_head_pos = Vector2(new_head_pos.x + SIDE_WIDTH, new_head_pos.y)
+		new_body_pos = new_body_pos + Vector2(SIDE_WIDTH, 0)
+		new_head_pos = new_head_pos + Vector2(SIDE_WIDTH, 0)
+		Log.debug("2 New Head position = %s" % str(new_head_pos))
 		#body_pos.x -= SIDE_WIDTH
-	body_part.position = body_pos
+	head.position = new_head_pos
+	body_part.position = new_body_pos
 	#body_part.modulate.a = 0
 	#body_part.scale.x = 0
 	
-	tween.tween_property(head, "position", body_pos, .2)
-	tween.parallel().tween_property(berry, "global_position:x",head.global_position.x + body_part_size * 2, .2)
-	tween.parallel().tween_property(berry, "modulate:a", 0, .2)
+	#tween.tween_property(head, "position", new_head_pos, .2)
+	#tween.parallel().tween_property(berry, "global_position:x",head.global_position.x + new_body_part_size * 2, .2)
+	#tween.parallel().tween_property(berry, "modulate:a", 0, .2)
 	#tween.parallel().tween_property(body_part, "modulate:a", 1, .5)
 	#tween.parallel().tween_property(body_part, "scale:x", 1, .2)
 	#else:
@@ -107,11 +112,14 @@ func eat_berry(berry: Berry) -> void:
 	
 	head.eat()
 	
-	await tween.finished
+	#await tween.finished
 	
 	body_part.right()
 	
 	is_eating = false
+	
+	# TODO DELETE, JUST TO KEEP SIGNATURE OF FUNCTION AS COROUTINE
+	await get_tree().process_frame
 
 
 func spit_berry(berry: Berry) -> void:
