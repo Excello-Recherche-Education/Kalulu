@@ -132,9 +132,9 @@ func spit_berry(berry: Berry) -> void:
 	# Spit the berry
 	head.spit()
 	tween = create_tween()
+	tween.tween_property(berry, "global_position:x", pos_x, 0.2)
 	tween.parallel().tween_property(berry, "scale:x", 1, .2)
 	tween.parallel().tween_property(berry, "scale:y", 1, .2)
-	tween.tween_property(berry, "global_position:x", pos_x, 0.2)
 	await tween.finished
 	await berry.wrong()
 	
@@ -151,10 +151,10 @@ func spit_berry(berry: Berry) -> void:
 func reset() -> void:
 	# Move the head and the body parts back
 	var tween: Tween = create_tween()
-	tween.tween_property(head, "position:x", 165, 0.2)
+	tween.tween_property(head, "position:x", 165, 0.5)
 	
 	for index: int in range(0, body_parts.get_child_count()):
-		tween.parallel().tween_property(body_parts.get_child(index), "modulate:a", 0, 1)
+		tween.parallel().tween_property(body_parts.get_child(index), "modulate:a", 0, 0.5)
 	
 	await tween.finished
 	
