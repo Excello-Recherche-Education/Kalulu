@@ -104,15 +104,9 @@ func eat_berry(berry: Berry) -> void:
 	tween.tween_property(head, "position", new_head_pos, .3)
 	tween.parallel().tween_property(berry, "scale:x", 0.5, .25)
 	tween.parallel().tween_property(berry, "scale:y", 0.5, .25)
+	tween.parallel().tween_property(berry, "global_position:x", body_part.global_position.x, .6)
 	var delete_tween: Tween = create_tween()
 	delete_tween.tween_callback(berry.queue_free).set_delay(2)
-	tween.parallel().tween_property(berry, "global_position:x", body_part.global_position.x, .6)
-	#tween.parallel().tween_property(berry, "modulate:a", 0, .2)
-	#tween.parallel().tween_property(body_part, "modulate:a", 1, .5)
-	#tween.parallel().tween_property(body_part, "scale:x", 1, .2)
-	#else:
-		#tween.tween_property(berry, "global_position:x", head.global_position.x + BODY_PART_WIDTH * 2, 0.2)
-		#tween.parallel().tween_property(berry, "modulate:a", 0, 1)
 	
 	head.eat()
 	
@@ -130,12 +124,16 @@ func spit_berry(berry: Berry) -> void:
 	
 	# Eat the berry
 	var tween: Tween = create_tween()
+	tween.parallel().tween_property(berry, "scale:x", 0.5, .2)
+	tween.parallel().tween_property(berry, "scale:y", 0.5, .2)
 	tween.tween_property(berry, "global_position:x",head.global_position.x, .2)
 	await head.eat()
 	
 	# Spit the berry
 	head.spit()
 	tween = create_tween()
+	tween.parallel().tween_property(berry, "scale:x", 1, .2)
+	tween.parallel().tween_property(berry, "scale:y", 1, .2)
 	tween.tween_property(berry, "global_position:x", pos_x, 0.2)
 	await tween.finished
 	await berry.wrong()
@@ -143,7 +141,9 @@ func spit_berry(berry: Berry) -> void:
 	# Make the berry disappear
 	tween = create_tween()
 	tween.tween_property(berry, "modulate:a", 0, 1)
-	await tween.finished	
+	await tween.finished
+	var delete_tween: Tween = create_tween()
+	delete_tween.tween_callback(berry.queue_free).set_delay(2)
 	
 	is_eating = false
 
@@ -151,19 +151,15 @@ func spit_berry(berry: Berry) -> void:
 func reset() -> void:
 	# Move the head and the body parts back
 	var tween: Tween = create_tween()
-	tween.tween_property(head, "position:x", 0, 0.2)
+	tween.tween_property(head, "position:x", 165, 0.2)
 	
-	for index: int in range(1, body_parts.get_child_count()):
-		tween.parallel().tween_property(body_parts.get_child(index), "position:x", 0, 0.2)
-	
-	# Clear text on the first body part
-	var body_part: CaterpillarBody = body_parts.get_child(0)
-	body_part.gp = {}
+	for index: int in range(0, body_parts.get_child_count()):
+		tween.parallel().tween_property(body_parts.get_child(index), "modulate:a", 0, 1)
 	
 	await tween.finished
 	
 	# Remove the old parts
-	for index: int in range(1, body_parts.get_child_count()):
+	for index: int in range(0, body_parts.get_child_count()):
 		body_parts.get_child(index).queue_free()
 
 
