@@ -53,8 +53,6 @@ func resize_body() -> void:
 	if letters_count <= 0:
 		return
 	
-	# await get_tree().process_frame
-	
 	var end_width: float = get_width()
 	var center_h: float = float(body_center.texture.get_height())
 	
@@ -67,7 +65,7 @@ func resize_body() -> void:
 		_update_body_layout()
 	
 	var start_width: float = body_center.size.x
-	tween.tween_method(apply_width, start_width, end_width, 0.5)
+	tween.tween_method(apply_width, start_width, end_width, 0.3)
 
 
 func _update_body_layout() -> void:

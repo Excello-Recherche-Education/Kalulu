@@ -8,6 +8,7 @@ const BODY_SIDE_SCENE: PackedScene = preload("res://sources/minigames/caterpilla
 const BODY_PART_MOVE_TIME: float = 0.25
 const BODY_PART_WAIT_TIME: float = 0.04
 const SIDE_WIDTH: int = 11 # Side is 11 pixels wide
+const BODY_PART_POSITION_X_MARGIN: int = 20 # Equals to the width of the graphics "left" + "right" of the body part, which are 10 pixels each
 
 var is_moving: bool = false
 var is_eating: bool = false
@@ -69,7 +70,7 @@ func eat_berry(berry: Berry) -> void:
 	is_eating = true
 	
 	var body_part: CaterpillarBody
-	#var tween: Tween = create_tween()
+	var tween: Tween = create_tween()
 	
 	# Check if there is only one empty body part
 	if body_parts.get_child_count() == 1:
@@ -86,7 +87,7 @@ func eat_berry(berry: Berry) -> void:
 	Log.debug("Start Head position = %s" % str(head.position))
 	var new_body_pos: Vector2 = Vector2(head.position.x, head.position.y)
 	var new_body_part_size: float = body_part.get_width()
-	var new_head_pos: Vector2 = Vector2(head.position.x + new_body_part_size  + 22, head.position.y)
+	var new_head_pos: Vector2 = Vector2(head.position.x + new_body_part_size  + BODY_PART_POSITION_X_MARGIN, head.position.y)
 	Log.debug("1 New Head position = %s" % str(new_head_pos))
 	if body_parts.get_child_count() > 1:
 		var body_side: Node2D = BODY_SIDE_SCENE.instantiate()
@@ -95,13 +96,13 @@ func eat_berry(berry: Berry) -> void:
 		new_body_pos = new_body_pos + Vector2(SIDE_WIDTH, 0)
 		new_head_pos = new_head_pos + Vector2(SIDE_WIDTH, 0)
 		Log.debug("2 New Head position = %s" % str(new_head_pos))
-		#body_pos.x -= SIDE_WIDTH
-	head.position = new_head_pos
+	#head.position = new_head_pos
 	body_part.position = new_body_pos
 	#body_part.modulate.a = 0
 	#body_part.scale.x = 0
 	
-	#tween.tween_property(head, "position", new_head_pos, .2)
+	tween.tween_property(head, "position", new_head_pos, .3)
+	tween.parallel().tween_property(berry, "modulate:a", 0, 1)
 	#tween.parallel().tween_property(berry, "global_position:x",head.global_position.x + new_body_part_size * 2, .2)
 	#tween.parallel().tween_property(berry, "modulate:a", 0, .2)
 	#tween.parallel().tween_property(body_part, "modulate:a", 1, .5)
@@ -112,7 +113,7 @@ func eat_berry(berry: Berry) -> void:
 	
 	head.eat()
 	
-	#await tween.finished
+	await tween.finished
 	
 	body_part.right()
 	
