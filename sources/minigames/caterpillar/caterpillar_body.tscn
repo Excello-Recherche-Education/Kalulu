@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://dryu60mtiqv3"]
+[gd_scene load_steps=27 format=3 uid="uid://dryu60mtiqv3"]
 
 [ext_resource type="Script" uid="uid://ynqc2tqeuqt3" path="res://sources/minigames/caterpillar/caterpillar_body.gd" id="1_vvkkg"]
-[ext_resource type="PackedScene" uid="uid://bqa4621i20qep" path="res://sources/minigames/caterpillar/caterpillar_leg_back.tscn" id="2_780g7"]
-[ext_resource type="PackedScene" uid="uid://c443tr2tw7r87" path="res://sources/minigames/caterpillar/caterpillar_leg_front.tscn" id="9_20a20"]
+[ext_resource type="Texture2D" uid="uid://dg035yddvs04o" path="res://assets/minigames/caterpillar/graphics/caterpillar_legs_spritesheet.png" id="2_20a20"]
 [ext_resource type="PackedScene" uid="uid://cn2rw06pltyiu" path="res://sources/utils/fx/right.tscn" id="14_cyw4o"]
 [ext_resource type="Texture2D" uid="uid://dkc630ptqucrp" path="res://assets/minigames/caterpillar/graphics/caterpillar_body_left.png" id="15_2xyl2"]
 [ext_resource type="LabelSettings" uid="uid://bguqnhiblwick" path="res://resources/themes/minigames_label_settings.tres" id="15_7eh5m"]
@@ -10,14 +9,143 @@
 [ext_resource type="Texture2D" uid="uid://df6l2panyr65v" path="res://assets/minigames/caterpillar/graphics/caterpillar_body_right.png" id="17_rhhiw"]
 [ext_resource type="FontFile" uid="uid://bw8cb4e0a7ayj" path="res://assets/fonts/kalulu_mulish_regular.otf" id="18_8jigi"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_kljk1"]
+atlas = ExtResource("2_20a20")
+region = Rect2(0, 58, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5x4bm"]
+atlas = ExtResource("2_20a20")
+region = Rect2(58, 58, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hm3do"]
+atlas = ExtResource("2_20a20")
+region = Rect2(116, 58, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2kxuy"]
+atlas = ExtResource("2_20a20")
+region = Rect2(174, 58, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qurmb"]
+atlas = ExtResource("2_20a20")
+region = Rect2(232, 58, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcxec"]
+atlas = ExtResource("2_20a20")
+region = Rect2(290, 58, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xf60k"]
+atlas = ExtResource("2_20a20")
+region = Rect2(348, 58, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7q7ci"]
+atlas = ExtResource("2_20a20")
+region = Rect2(406, 58, 58, 58)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xdpna"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kljk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5x4bm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hm3do")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2kxuy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qurmb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcxec")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xf60k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7q7ci")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mar67"]
+atlas = ExtResource("2_20a20")
+region = Rect2(0, 0, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlsel"]
+atlas = ExtResource("2_20a20")
+region = Rect2(58, 0, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbqxf"]
+atlas = ExtResource("2_20a20")
+region = Rect2(116, 0, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trbgy"]
+atlas = ExtResource("2_20a20")
+region = Rect2(174, 0, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_en6ls"]
+atlas = ExtResource("2_20a20")
+region = Rect2(232, 0, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0aqu6"]
+atlas = ExtResource("2_20a20")
+region = Rect2(290, 0, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u3ehn"]
+atlas = ExtResource("2_20a20")
+region = Rect2(348, 0, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wudb4"]
+atlas = ExtResource("2_20a20")
+region = Rect2(406, 0, 58, 58)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_018u2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mar67")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlsel")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbqxf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trbgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_en6ls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0aqu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u3ehn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wudb4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
 [node name="CaterpillarBody" type="Node2D"]
 script = ExtResource("1_vvkkg")
 
 [node name="Position" type="Node2D" parent="."]
 position = Vector2(0, -150)
 
-[node name="CaterpillarLegBack" parent="Position" instance=ExtResource("2_780g7")]
+[node name="AnimatedSprite2D_Leg_Back" type="AnimatedSprite2D" parent="Position"]
 position = Vector2(40, 140)
+sprite_frames = SubResource("SpriteFrames_xdpna")
 
 [node name="RightFX" parent="Position" instance=ExtResource("14_cyw4o")]
 unique_name_in_owner = true
@@ -56,5 +184,6 @@ theme_override_fonts/font = ExtResource("18_8jigi")
 text = "e"
 label_settings = ExtResource("15_7eh5m")
 
-[node name="CaterpillarLegFront" parent="Position" instance=ExtResource("9_20a20")]
+[node name="AnimatedSprite2D_Leg_Front" type="AnimatedSprite2D" parent="Position"]
 position = Vector2(40, 140)
+sprite_frames = SubResource("SpriteFrames_018u2")

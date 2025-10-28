@@ -19,6 +19,8 @@ var base_width: int = 10 # Minimal width of the body
 @onready var body_left: Sprite2D = %Sprite2D_Body_Left
 @onready var body_center: TextureRect = %TextureRect_Body_Center
 @onready var body_right: Sprite2D = %Sprite2D_Body_Right
+@onready var caterpillar_leg_back: AnimatedSprite2D = $Position/AnimatedSprite2D_Leg_Back
+@onready var caterpillar_leg_front: AnimatedSprite2D = $Position/AnimatedSprite2D_Leg_Front
 
 
 func _ready() -> void:
@@ -26,13 +28,13 @@ func _ready() -> void:
 
 
 func idle() -> void:
-	pass
-	# animated_sprite.play("idle")
+	caterpillar_leg_front.pause()
+	caterpillar_leg_back.pause()
 
 
 func walk() -> void:
-	pass
-	# animated_sprite.play("walk")
+	caterpillar_leg_front.play()
+	caterpillar_leg_back.play()
 
 
 func right() -> void:
@@ -66,6 +68,11 @@ func resize_body() -> void:
 	
 	var start_width: float = body_center.size.x
 	tween.tween_method(apply_width, start_width, end_width, 0.3)
+	
+	await tween.finished
+	
+	caterpillar_leg_back.global_position = Vector2(body_center.global_position.x + end_width/2, caterpillar_leg_back.global_position.y)
+	caterpillar_leg_front.global_position = Vector2(body_center.global_position.x + end_width/2, caterpillar_leg_front.global_position.y)
 
 
 func _update_body_layout() -> void:
