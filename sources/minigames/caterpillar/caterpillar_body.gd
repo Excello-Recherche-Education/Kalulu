@@ -83,21 +83,3 @@ func _update_body_layout() -> void:
 		left_width + margin + (current_center_w - 2.0 * margin) * 0.5 - label_width * 0.5,
 		center_height * 0.5 - label_height * 0.5
 	)
-
-
-
-func _get_text_pixel_width() -> float:
-	var font: Font = label.get_theme_font("font")
-	var font_size: int = label.get_theme_font_size("font_size")
-	var label_settings: LabelSettings = label.label_settings
-	var width: float = 0.0
-	
-	if font != null:
-		width = font.get_string_size(label.text, font_size).x
-	else:
-		width = label.size.x
-	
-	if label_settings != null and label_settings.outline_size > 0:
-		width += float(label_settings.outline_size) * 2.0
-	
-	return width

@@ -45,8 +45,8 @@ func move(distance: float) -> void:
 	for index: int in range(body_parts.get_child_count(false)):
 		await get_tree().create_timer(BODY_PART_WAIT_TIME).timeout
 		var body_part: Node = body_parts.get_child(-index-1)
-		if body_part is CaterpillarBody:
-			coroutine.add_future(_tween_body_part(body_part as CaterpillarBody, distance).finished)
+		if body_part is Node2D:
+			coroutine.add_future(_tween_body_part(body_part as Node2D, distance).finished)
 	
 	# Move tail
 	var scene_tree: SceneTree = get_tree()
@@ -102,8 +102,11 @@ func eat_berry(berry: Berry) -> void:
 	#body_part.scale.x = 0
 	
 	tween.tween_property(head, "position", new_head_pos, .3)
-	tween.parallel().tween_property(berry, "modulate:a", 0, 1)
-	#tween.parallel().tween_property(berry, "global_position:x",head.global_position.x + new_body_part_size * 2, .2)
+	tween.parallel().tween_property(berry, "scale:x", 0.5, .25)
+	tween.parallel().tween_property(berry, "scale:y", 0.5, .25)
+	var delete_tween: Tween = create_tween()
+	delete_tween.tween_callback(berry.queue_free).set_delay(2)
+	tween.parallel().tween_property(berry, "global_position:x", body_part.global_position.x, .6)
 	#tween.parallel().tween_property(berry, "modulate:a", 0, .2)
 	#tween.parallel().tween_property(body_part, "modulate:a", 1, .5)
 	#tween.parallel().tween_property(body_part, "scale:x", 1, .2)
@@ -118,9 +121,6 @@ func eat_berry(berry: Berry) -> void:
 	body_part.right()
 	
 	is_eating = false
-	
-	# TODO DELETE, JUST TO KEEP SIGNATURE OF FUNCTION AS COROUTINE
-	await get_tree().process_frame
 
 
 func spit_berry(berry: Berry) -> void:
