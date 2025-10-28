@@ -105,12 +105,12 @@ func eat_berry(berry: Berry) -> void:
 	tween.parallel().tween_property(berry, "scale:x", 0.5, .25)
 	tween.parallel().tween_property(berry, "scale:y", 0.5, .25)
 	tween.parallel().tween_property(berry, "global_position:x", body_part.global_position.x, .6)
-	var delete_tween: Tween = create_tween()
-	delete_tween.tween_callback(berry.queue_free).set_delay(2)
 	
 	head.eat()
 	
 	await tween.finished
+	
+	berry.queue_free()
 	
 	body_part.right()
 	
