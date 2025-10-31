@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dryu60mtiqv3"]
+[gd_scene load_steps=26 format=3 uid="uid://dryu60mtiqv3"]
 
 [ext_resource type="Script" uid="uid://ynqc2tqeuqt3" path="res://sources/minigames/caterpillar/caterpillar_body.gd" id="1_vvkkg"]
 [ext_resource type="Texture2D" uid="uid://dg035yddvs04o" path="res://assets/minigames/caterpillar/graphics/caterpillar_legs_spritesheet.png" id="2_20a20"]
@@ -7,7 +7,6 @@
 [ext_resource type="LabelSettings" uid="uid://bguqnhiblwick" path="res://resources/themes/minigames_label_settings.tres" id="15_7eh5m"]
 [ext_resource type="Texture2D" uid="uid://bxqxl2iflusat" path="res://assets/minigames/caterpillar/graphics/caterpillar_body_center.png" id="16_8jigi"]
 [ext_resource type="Texture2D" uid="uid://df6l2panyr65v" path="res://assets/minigames/caterpillar/graphics/caterpillar_body_right.png" id="17_rhhiw"]
-[ext_resource type="FontFile" uid="uid://bw8cb4e0a7ayj" path="res://assets/fonts/kalulu_mulish_regular.otf" id="18_8jigi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kljk1"]
 atlas = ExtResource("2_20a20")
@@ -180,7 +179,6 @@ unique_name_in_owner = true
 offset_top = -10.0
 offset_right = 163.0
 offset_bottom = 121.0
-theme_override_fonts/font = ExtResource("18_8jigi")
 text = "e"
 label_settings = ExtResource("15_7eh5m")
 
