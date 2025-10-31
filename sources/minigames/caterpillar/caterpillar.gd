@@ -84,18 +84,15 @@ func eat_berry(berry: Berry) -> void:
 	body_part.gp = berry.gp
 	#await get_tree().process_frame
 	
-	Log.debug("Start Head position = %s" % str(head.position))
 	var new_body_pos: Vector2 = Vector2(head.position.x, head.position.y)
 	var new_body_part_size: float = body_part.get_width()
 	var new_head_pos: Vector2 = Vector2(head.position.x + new_body_part_size  + BODY_PART_POSITION_X_MARGIN, head.position.y)
-	Log.debug("1 New Head position = %s" % str(new_head_pos))
 	if body_parts.get_child_count() > 1:
 		var body_side: Node2D = BODY_SIDE_SCENE.instantiate()
 		body_parts.add_child(body_side)
 		body_side.position = Vector2(head.position.x, head.position.y)
 		new_body_pos = new_body_pos + Vector2(SIDE_WIDTH, 0)
 		new_head_pos = new_head_pos + Vector2(SIDE_WIDTH, 0)
-		Log.debug("2 New Head position = %s" % str(new_head_pos))
 	#head.position = new_head_pos
 	body_part.position = new_body_pos
 	#body_part.modulate.a = 0
