@@ -37,10 +37,10 @@ func _ready() -> void:
 		var leaf: Leaf = LEAF_SCENE.instantiate()
 		leaves.add_child(leaf)
 		leaf.position.x = pos
-		pos = pos + velocity * randf_range(2, 5)
+		pos = pos + velocity * randf_range(1, 5)
 	
 	if not Engine.is_editor_hint():
-		leaf_timer.wait_time = randf_range(3.0, 5.0)
+		leaf_timer.wait_time = randf_range(1.5, 5.0)
 		leaf_timer.start()
 
 
@@ -78,7 +78,7 @@ func _on_leaf_timer_timeout() -> void:
 	var leaf: Leaf = LEAF_SCENE.instantiate()
 	leaves.add_child(leaf)
 	
-	leaf_timer.wait_time = randf_range(3.0, 5.0)
+	leaf_timer.wait_time = randf_range(1.5, 5.0)
 	leaf_timer.start()
 
 
