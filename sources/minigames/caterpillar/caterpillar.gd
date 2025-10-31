@@ -16,6 +16,7 @@ var is_eating: bool = false
 @onready var head: CaterpillarHead = $Head
 @onready var body_parts: Node2D = $BodyParts
 @onready var tail: Node2D = $Tail
+@onready var animated_tail: AnimatedSprite2D = $Tail/AnimatedSprite2D
 
 
 func idle() -> void:
@@ -23,6 +24,7 @@ func idle() -> void:
 		if body_part is CaterpillarBody:
 			(body_part as CaterpillarBody).idle()
 	head.pause_animation()
+	animated_tail.pause()
 
 
 func walk() -> void:
@@ -30,6 +32,7 @@ func walk() -> void:
 		if body_part is CaterpillarBody:
 			(body_part as CaterpillarBody).walk()
 	head.resume_animation()
+	animated_tail.play()
 
 
 func move(distance: float) -> void:

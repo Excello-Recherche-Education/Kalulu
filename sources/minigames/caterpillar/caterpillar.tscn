@@ -1,11 +1,75 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqx0qux4msnm7"]
+[gd_scene load_steps=14 format=3 uid="uid://cqx0qux4msnm7"]
 
 [ext_resource type="Script" uid="uid://ui362fnglx0k" path="res://sources/minigames/caterpillar/caterpillar.gd" id="1_addut"]
-[ext_resource type="Texture2D" uid="uid://cmhvrs2jaqhwd" path="res://assets/minigames/caterpillar/graphics/caterpillar_tail.png" id="4_noi0q"]
+[ext_resource type="Texture2D" uid="uid://cyxl5ep0vuavl" path="res://assets/minigames/caterpillar/graphics/caterpillar_spritesheet.png" id="3_iusck"]
 [ext_resource type="PackedScene" uid="uid://cm7e5ir8ykhpv" path="res://sources/minigames/caterpillar/caterpillar_head.tscn" id="17_ty72k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6qw72"]
 size = Vector2(34, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_noi0q"]
+atlas = ExtResource("3_iusck")
+region = Rect2(0, 2050, 410, 410)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nx4nf"]
+atlas = ExtResource("3_iusck")
+region = Rect2(410, 2050, 410, 410)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddt3b"]
+atlas = ExtResource("3_iusck")
+region = Rect2(820, 2050, 410, 410)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5c23"]
+atlas = ExtResource("3_iusck")
+region = Rect2(1230, 2050, 410, 410)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s16mg"]
+atlas = ExtResource("3_iusck")
+region = Rect2(1640, 2050, 410, 410)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6eh7"]
+atlas = ExtResource("3_iusck")
+region = Rect2(2050, 2050, 410, 410)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thukv"]
+atlas = ExtResource("3_iusck")
+region = Rect2(2460, 2050, 410, 410)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3nhcw"]
+atlas = ExtResource("3_iusck")
+region = Rect2(2870, 2050, 410, 410)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2eysc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_noi0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nx4nf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddt3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5c23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s16mg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6eh7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thukv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3nhcw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
 
 [node name="Caterpillar" type="Node2D"]
 script = ExtResource("1_addut")
@@ -24,8 +88,10 @@ shape = SubResource("RectangleShape2D_6qw72")
 
 [node name="Tail" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="Tail"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Tail"]
 position = Vector2(88, -99)
-texture = ExtResource("4_noi0q")
+scale = Vector2(0.45, 0.45)
+sprite_frames = SubResource("SpriteFrames_2eysc")
+autoplay = "default"
 
 [connection signal="area_entered" from="Head/EatArea2D" to="." method="_on_eat_area_2d_area_entered"]
