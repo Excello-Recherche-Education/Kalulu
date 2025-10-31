@@ -23,10 +23,6 @@ var base_width: int = 10 # Minimal width of the body
 @onready var caterpillar_leg_front: AnimatedSprite2D = $Position/AnimatedSprite2D_Leg_Front
 
 
-func _ready() -> void:
-	walk()
-
-
 func idle() -> void:
 	caterpillar_leg_front.pause()
 	caterpillar_leg_back.pause()
@@ -46,7 +42,6 @@ func get_width() -> float:
 	label.reset_size()
 	var text_w: float = label.size.x
 	var end_width: float = max(float(base_width), text_w + float(margin) * 2.0)
-	Log.debug(str(end_width))
 	return end_width
 
 

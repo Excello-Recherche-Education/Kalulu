@@ -22,16 +22,18 @@ func idle() -> void:
 	for body_part: Node in body_parts.get_children():
 		if body_part is CaterpillarBody:
 			(body_part as CaterpillarBody).idle()
+	head.pause_animation()
 
 
 func walk() -> void:
 	for body_part: Node in body_parts.get_children():
 		if body_part is CaterpillarBody:
 			(body_part as CaterpillarBody).walk()
+	head.resume_animation()
 
 
 func move(distance: float) -> void:
-	if is_moving or is_eating:
+	if is_moving or is_eating or head.is_paused:
 		return
 	
 	idle()
@@ -72,17 +74,9 @@ func eat_berry(berry: Berry) -> void:
 	var body_part: CaterpillarBody
 	var tween: Tween = create_tween()
 	
-	# Check if there is only one empty body part
-	if body_parts.get_child_count() == 1:
-		var current_body_part: CaterpillarBody = body_parts.get_child(0) as CaterpillarBody
-		if not current_body_part.gp:
-			body_part = current_body_part
-	
 	body_part = BODY_PART_SCENE.instantiate()
 	body_parts.add_child(body_part)
-	#await get_tree().create_timer(3.0).timeout
 	body_part.gp = berry.gp
-	#await get_tree().process_frame
 	
 	var new_body_pos: Vector2 = Vector2(head.position.x, head.position.y)
 	var new_body_part_size: float = body_part.get_width()
@@ -93,10 +87,7 @@ func eat_berry(berry: Berry) -> void:
 		body_side.position = Vector2(head.position.x, head.position.y)
 		new_body_pos = new_body_pos + Vector2(SIDE_WIDTH, 0)
 		new_head_pos = new_head_pos + Vector2(SIDE_WIDTH, 0)
-	#head.position = new_head_pos
 	body_part.position = new_body_pos
-	#body_part.modulate.a = 0
-	#body_part.scale.x = 0
 	
 	tween.tween_property(head, "position", new_head_pos, .3)
 	tween.parallel().tween_property(berry, "scale:x", 0.5, .25)
@@ -107,10 +98,8 @@ func eat_berry(berry: Berry) -> void:
 	
 	await tween.finished
 	
-	berry.queue_free()
-	
 	body_part.right()
-	
+	berry.queue_free()
 	is_eating = false
 
 
