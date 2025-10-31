@@ -10,7 +10,7 @@ const BODY_PART_WAIT_TIME: float = 0.04
 const SIDE_WIDTH: int = 11 # Side is 11 pixels wide
 const BODY_PART_POSITION_X_MARGIN: int = 20 # Equals to the width of the graphics "left" + "right" of the body part, which are 10 pixels each
 
-var is_moving: bool = false
+var is_switching_branch: bool = false
 var is_eating: bool = false
 
 @onready var head: CaterpillarHead = $Head
@@ -33,11 +33,11 @@ func walk() -> void:
 
 
 func move(distance: float) -> void:
-	if is_moving or is_eating or head.is_paused:
+	if is_switching_branch or is_eating or head.is_paused:
 		return
 	
 	idle()
-	is_moving = true
+	is_switching_branch = true
 	var coroutine: Coroutine = Coroutine.new()
 	
 	# Move head
@@ -58,7 +58,7 @@ func move(distance: float) -> void:
 	coroutine.add_future(_tween_body_part(tail, distance).finished)
 	
 	await coroutine.join_all()
-	is_moving = false
+	is_switching_branch = false
 	walk()
 
 
@@ -150,7 +150,7 @@ func reset() -> void:
 
 
 func _on_eat_area_2d_area_entered(area: Area2D) -> void:
-	if area is Berry and !is_moving:
+	if area is Berry and !is_switching_branch:
 		var berry: Berry = area as Berry
 		berry.is_eaten = true
 		berry_eaten.emit(berry)
