@@ -93,8 +93,9 @@ func eat_berry(berry: Berry) -> void:
 	body_part.position = new_body_pos
 	
 	tween.tween_property(head, "position", new_head_pos, .3)
-	tween.parallel().tween_property(berry, "scale:x", 0.5, .25)
-	tween.parallel().tween_property(berry, "scale:y", 0.5, .25)
+	tween.parallel().tween_property(berry, "scale:x", 0.1, .25)
+	tween.parallel().tween_property(berry, "scale:y", 0.1, .25)
+	tween.parallel().tween_property(berry, "position:y", -100, .25)
 	tween.parallel().tween_property(berry, "global_position:x", body_part.global_position.x, .6)
 	
 	head.eat()
@@ -113,8 +114,9 @@ func spit_berry(berry: Berry) -> void:
 	
 	# Eat the berry
 	var tween: Tween = create_tween()
-	tween.parallel().tween_property(berry, "scale:x", 0.5, .2)
-	tween.parallel().tween_property(berry, "scale:y", 0.5, .2)
+	tween.parallel().tween_property(berry, "scale:x", 0.1, .2)
+	tween.parallel().tween_property(berry, "scale:y", 0.1, .2)
+	tween.parallel().tween_property(berry, "position:y", -100, .25)
 	tween.tween_property(berry, "global_position:x",head.global_position.x, .2)
 	await head.eat()
 	
@@ -124,6 +126,7 @@ func spit_berry(berry: Berry) -> void:
 	tween.tween_property(berry, "global_position:x", pos_x, 0.2)
 	tween.parallel().tween_property(berry, "scale:x", 1, .2)
 	tween.parallel().tween_property(berry, "scale:y", 1, .2)
+	tween.parallel().tween_property(berry, "position:y", 0, .25)
 	await tween.finished
 	await berry.wrong()
 	
