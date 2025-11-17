@@ -2,11 +2,11 @@
 class_name CaterpillarBody
 extends Node2D
 
-var gp: Dictionary = {}:
+var grapheme_phoneme_data: Dictionary = {}:
 	set(value):
-		gp = value
-		if gp.has("Grapheme"):
-			label.text = gp.Grapheme
+		grapheme_phoneme_data = value
+		if grapheme_phoneme_data.has("Grapheme"):
+			label.text = grapheme_phoneme_data.Grapheme
 		else:
 			label.text = ""
 

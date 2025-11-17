@@ -11,7 +11,7 @@ var labels: Array[PenguinLabel] = []
 @onready var labels_container: HFlowContainer = $GameRoot/Control/LabelsContainer
 
 
-# Find words with silent GPs
+# Find words with silent Graphems/Phonems
 func _find_stimuli_and_distractions() -> void:
 	var sentences_list: Array = Database.get_sentences_for_lesson_with_silent_gps(lesson_nb)
 	
@@ -96,9 +96,9 @@ func _setup_word_progression() -> void:
 	var last_word_id: int
 	var word_container: HBoxContainer
 	
-	for gp: Dictionary in stimulus.GPs:
-		if gp.WordID != last_word_id:
-			last_word_id = gp.WordID
+	for grapheme_phoneme_data: Dictionary in stimulus.GPs:
+		if grapheme_phoneme_data.WordID != last_word_id:
+			last_word_id = grapheme_phoneme_data.WordID
 			word_container = HBoxContainer.new()
 			labels_container.add_child(word_container)
 		
@@ -106,14 +106,14 @@ func _setup_word_progression() -> void:
 		if first_gp:
 			label.capitalized = true
 			first_gp = false
-		label.gp = gp
+		label.grapheme_phoneme_data = grapheme_phoneme_data
 		word_container.add_child(label)
 		
 		label.pressed.connect(_on_snowball_thrown.bind(label))
 		
 		labels.append(label)
 		
-		if gp.Type == 0:
+		if grapheme_phoneme_data.Type == 0:
 			max_word_progression += 1
 	
 	current_word_progression = 0
@@ -121,7 +121,7 @@ func _setup_word_progression() -> void:
 
 func _highlight() -> void:
 	for label: PenguinLabel in labels:
-		if self._is_silent(label.gp) and not label.is_pressed:
+		if self._is_silent(label.grapheme_phoneme_data) and not label.is_pressed:
 			label.highlight()
 
 
@@ -137,8 +137,8 @@ func _get_current_stimulus() -> Dictionary:
 	return stimuli[current_progression % stimuli.size()]
 
 
-func _is_silent(gp: Dictionary) -> bool:
-	return gp.Type == 0
+func _is_silent(grapheme_phoneme_data: Dictionary) -> bool:
+	return grapheme_phoneme_data.Type == 0
 
 
 func _set_current_word_progression(p_current_word_progression: int) -> void:
@@ -156,10 +156,10 @@ func _on_snowball_thrown(pos: Vector2, label: PenguinLabel) -> void:
 	# Throw the snowball
 	await penguin.throw(pos)
 	
-	var correct_answer: bool = _is_silent(label.gp)
+	var correct_answer: bool = _is_silent(label.grapheme_phoneme_data)
 	
-	if label.gp.has("WordID"):
-		_update_remediation_word_score(label.gp.WordID as int, 1 if correct_answer else -1)
+	if label.grapheme_phoneme_data.has("WordID"):
+		_update_remediation_word_score(label.grapheme_phoneme_data.WordID as int, 1 if correct_answer else -1)
 	else:
 		Log.error("PenguinMinigame: Cannot update remediation score because label GP has no WordID")
 	

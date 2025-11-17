@@ -70,7 +70,7 @@ func _create_tracks() -> void:
 		lilypad_tracks_container.add_child(track)
 		
 		track.difficulty_settings = difficulty_settings[difficulty]
-		track.gp = current_word.GPs[index]
+		track.grapheme_phoneme_data = current_word.GPs[index]
 		track.distractors = current_distractors[index]
 		track.distractors_queue_size = distractors_queue_size
 		

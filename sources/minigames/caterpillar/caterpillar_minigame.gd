@@ -88,9 +88,9 @@ func _clear_berries() -> void:
 		branch.clear_berries()
 
 
-func _play_berry_phoneme(gp: Dictionary) -> void:
-	if gp and gp.has("Phoneme"):
-		await audio_player.play_gp(gp)
+func _play_berry_phoneme(grapheme_phoneme_data: Dictionary) -> void:
+	if grapheme_phoneme_data and grapheme_phoneme_data.has("Phoneme"):
+		await audio_player.play_gp(grapheme_phoneme_data)
 
 #region Connections
 
@@ -106,27 +106,27 @@ func _on_berry_timer_timeout() -> void:
 	var branch: Branch = branches[index]
 	
 	# Define if the berry is a stimulus or a distraction
-	var gp: Dictionary = {}
+	var grapheme_phoneme_data: Dictionary = {}
 	var is_stimulus: bool = randf() < _get_difficulty_settings().stimuli_ratio
 	if is_stimulus:
-		gp = _get_gp()
+		grapheme_phoneme_data = _get_gp()
 	else:
-		gp = _get_distractor()
+		grapheme_phoneme_data = _get_distractor()
 	
 	# Spawn the berry
-	branch.spawn_berry(gp, !is_stimulus)
+	branch.spawn_berry(grapheme_phoneme_data, !is_stimulus)
 
 
 func _on_berry_eaten(berry: Berry) -> void:
 	# Log the answer
-	_log_new_response_and_score(berry.gp)
+	_log_new_response_and_score(berry.grapheme_phoneme_data)
 	
 	# Pause the timer
 	berry_timer.paused = true
 	
-	var gp: Dictionary = berry.gp
+	var grapheme_phoneme_data: Dictionary = berry.grapheme_phoneme_data
 	
-	if _is_gp_right(berry.gp):
+	if _is_gp_right(berry.grapheme_phoneme_data):
 		_clear_berries()
 		_stop()
 		await caterpillar.eat_berry(berry)
@@ -136,7 +136,7 @@ func _on_berry_eaten(berry: Berry) -> void:
 	else:
 		_stop()
 		await caterpillar.spit_berry(berry)
-		await audio_player.play_gp(gp)
+		await audio_player.play_gp(grapheme_phoneme_data)
 		_run()
 		current_lives -= 1
 	

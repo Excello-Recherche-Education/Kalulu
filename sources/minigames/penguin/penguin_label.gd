@@ -3,7 +3,7 @@ extends Label
 
 signal pressed(pos: Vector2)
 
-var gp: Dictionary = {}
+var grapheme_phoneme_data: Dictionary = {}
 var capitalized: bool = false
 var is_pressed: bool = false
 
@@ -14,11 +14,11 @@ var is_pressed: bool = false
 
 
 func _ready() -> void:
-	if gp:
+	if grapheme_phoneme_data:
 		if capitalized:
-			text = (gp.Grapheme as String).capitalize()
+			text = (grapheme_phoneme_data.Grapheme as String).capitalize()
 		else:
-			text = gp.Grapheme
+			text = grapheme_phoneme_data.Grapheme
 
 
 func set_button_enabled(is_enabled: bool) -> void:

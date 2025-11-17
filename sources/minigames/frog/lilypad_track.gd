@@ -13,10 +13,10 @@ var is_enabled: bool = false:
 var is_highlighting: bool = false:
 	set = _set_highlighting
 var difficulty_settings: FrogMinigame.DifficultySettings
-var gp: Dictionary = {}:
+var grapheme_phoneme_data: Dictionary = {}:
 	set(value):
-		gp = value
-		if gp.Type == 2:
+		grapheme_phoneme_data = value
+		if grapheme_phoneme_data.Type == 2:
 			top_to_bottom = true
 var distractors: Array[Dictionary] = []
 var distractors_queue: Array[Dictionary] = []
@@ -103,7 +103,7 @@ func _spawn_lilypad() -> void:
 	var is_stimulus: bool = randf() < difficulty_settings.stimuli_ratio
 	lilypad.is_distractor = !is_stimulus
 	if is_stimulus:
-		lilypad.stimulus = gp
+		lilypad.stimulus = grapheme_phoneme_data
 	else:
 		lilypad.stimulus = pick_distractor()
 	

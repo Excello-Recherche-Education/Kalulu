@@ -2,14 +2,14 @@ class_name MinigameAudioStreamPlayer
 extends AudioStreamPlayer
 
 
-func play_gp(gp: Dictionary) -> void:
-	Log.trace("Minigame Audio Stream Player: Playing GP " + str(gp))
-	if not gp or gp.is_empty():
+func play_gp(grapheme_phoneme_data: Dictionary) -> void:
+	Log.trace("Minigame Audio Stream Player: Playing GP " + str(grapheme_phoneme_data))
+	if not grapheme_phoneme_data or grapheme_phoneme_data.is_empty():
 		return
 	
-	var phoneme_audiostream: AudioStreamMP3 = Database.load_external_sound(Database.get_gp_sound_path(gp)) as AudioStream
+	var phoneme_audiostream: AudioStreamMP3 = Database.load_external_sound(Database.get_gp_sound_path(grapheme_phoneme_data)) as AudioStream
 	if not phoneme_audiostream:
-		Log.warn("MinigameAudioStreamPlayer: AudioStream not found for gp %s " % gp)
+		Log.warn("MinigameAudioStreamPlayer: AudioStream not found for gp %s " % grapheme_phoneme_data)
 		return
 	
 	await play_audio_stream(phoneme_audiostream)

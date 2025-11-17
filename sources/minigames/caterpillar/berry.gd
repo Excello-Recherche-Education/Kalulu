@@ -1,13 +1,13 @@
 class_name Berry
 extends Area2D
 
-signal pressed(gp: Dictionary)
+signal pressed(grapheme_phoneme_data: Dictionary)
 
-var gp: Dictionary = {}: 
+var grapheme_phoneme_data: Dictionary = {}: 
 	set(value):
-		gp = value
-		if gp.has("Grapheme"):
-			label.text = gp.Grapheme
+		grapheme_phoneme_data = value
+		if grapheme_phoneme_data.has("Grapheme"):
+			label.text = grapheme_phoneme_data.Grapheme
 		else:
 			label.text = ""
 var is_eaten: bool = false: 
@@ -48,5 +48,5 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 
 func _on_button_pressed() -> void:
-	if not is_eaten and gp:
-		pressed.emit(gp)
+	if not is_eaten and grapheme_phoneme_data:
+		pressed.emit(grapheme_phoneme_data)

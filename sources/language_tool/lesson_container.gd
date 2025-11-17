@@ -99,6 +99,6 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 
 func get_gp_ids() -> Array[int]:
 	var res: Array[int] = []
-	for gp: LessonGPLabel in gp_container.get_children():
-		res.append(gp.gp_id)
+	for gp_label: LessonGPLabel in gp_container.get_children():
+		res.append(gp_label.gp_id)
 	return res

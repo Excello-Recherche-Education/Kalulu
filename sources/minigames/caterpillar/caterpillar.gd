@@ -71,7 +71,7 @@ func eat_berry(berry: Berry) -> void:
 	# Check if there is only one empty body part
 	if body_parts.get_child_count() == 1:
 		var current_body_part: CaterpillarBody = body_parts.get_child(0) as CaterpillarBody
-		if not current_body_part.gp:
+		if not current_body_part.grapheme_phoneme_data:
 			body_part = current_body_part
 	
 	if not body_part:
@@ -93,7 +93,7 @@ func eat_berry(berry: Berry) -> void:
 		tween.parallel().tween_property(berry, "modulate:a", 0, 1)
 	
 	head.eat()
-	body_part.gp = berry.gp
+	body_part.grapheme_phoneme_data = berry.grapheme_phoneme_data
 	
 	await tween.finished
 	
@@ -137,7 +137,7 @@ func reset() -> void:
 	
 	# Clear text on the first body part
 	var body_part: CaterpillarBody = body_parts.get_child(0)
-	body_part.gp = {}
+	body_part.grapheme_phoneme_data = {}
 	
 	await tween.finished
 	

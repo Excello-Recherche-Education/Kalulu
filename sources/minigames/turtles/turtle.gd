@@ -4,11 +4,11 @@ extends Node2D
 signal pressed(gp: Dictionary)
 signal animation_changed(position: Vector2)
 
-var gp: Dictionary = {}:
+var grapheme_phoneme_data: Dictionary = {}:
 	set(value):
-		gp = value
-		if gp and gp.has("Grapheme"):
-			label.text = gp.Grapheme
+		grapheme_phoneme_data = value
+		if grapheme_phoneme_data and grapheme_phoneme_data.has("Grapheme"):
+			label.text = grapheme_phoneme_data.Grapheme
 		else:
 			label.text = ""
 var velocity: float = 0.
@@ -108,7 +108,7 @@ func _on_swipe_detector_swipe(start_position: Vector2, end_position: Vector2) ->
 
 
 func _on_swipe_detector_pressed() -> void:
-	pressed.emit(gp)
+	pressed.emit(grapheme_phoneme_data)
 
 
 func _on_animated_sprite_2d_animation_changed() -> void:

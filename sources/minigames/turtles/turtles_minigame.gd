@@ -51,7 +51,7 @@ func _setup_minigame() -> void:
 
 func _highlight() -> void:
 	for turtle: Turtle in turtles.get_children():
-			if self._is_gp_right(turtle.gp):
+			if self._is_gp_right(turtle.grapheme_phoneme_data):
 				turtle.highlight(true)
 
 
@@ -60,9 +60,9 @@ func _stop_highlight() -> void:
 		turtle.highlight(false)
 
 
-func _play_turtle_phoneme(gp: Dictionary) -> void:
-	if gp and gp.has("Phoneme"):
-		await audio_player.play_gp(gp)
+func _play_turtle_phoneme(grapheme_phoneme_data: Dictionary) -> void:
+	if grapheme_phoneme_data and grapheme_phoneme_data.has("Phoneme"):
+		await audio_player.play_gp(grapheme_phoneme_data)
 
 
 func _clear_turtles() -> void:
@@ -100,7 +100,7 @@ func _on_spawn_timer_timeout() -> void:
 	turtle.tree_exited.connect(
 		func() -> void:
 			turtle_count -= 1
-			if stimulus_spawned and _is_gp_right(turtle.gp):
+			if stimulus_spawned and _is_gp_right(turtle.grapheme_phoneme_data):
 				stimulus_spawned = false
 	)
 	
@@ -112,12 +112,12 @@ func _on_spawn_timer_timeout() -> void:
 	# Define if the turtle is a stimulus or a distraction
 	var is_stimulus: bool = not stimulus_spawned and randf() < settings.stimuli_ratio
 	if is_stimulus:
-		turtle.gp = _get_gp()
+		turtle.grapheme_phoneme_data = _get_gp()
 		if is_highlighting:
 			turtle.highlight(true)
 		stimulus_spawned = true
 	else:
-		turtle.gp = _get_distractor()
+		turtle.grapheme_phoneme_data = _get_distractor()
 	
 	# Increment the count
 	turtle_count += 1
@@ -133,13 +133,13 @@ func _on_island_area_entered(area: Area2D) -> void:
 		return
 	
 	# Log the answer
-	_log_new_response_and_score(turtle.gp)
+	_log_new_response_and_score(turtle.grapheme_phoneme_data)
 	
 	# Disable the island collisions
 	island.set_enabled(false)
 	
 	# Check if the turtle is a distractor or the awaited GP
-	if _is_gp_right(turtle.gp):
+	if _is_gp_right(turtle.grapheme_phoneme_data):
 		# Handles the stimulus spawned status
 		stimulus_spawned = false
 		
@@ -168,7 +168,7 @@ func _on_island_area_entered(area: Area2D) -> void:
 		turtle.disappear()
 		
 		# Play the GP
-		await audio_player.play_gp(turtle.gp)
+		await audio_player.play_gp(turtle.grapheme_phoneme_data)
 		
 		# Update the lives
 		current_lives -= 1

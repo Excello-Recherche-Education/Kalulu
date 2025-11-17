@@ -3,7 +3,7 @@ class_name Branch
 extends Node2D
 
 signal branch_pressed()
-signal berry_pressed(gp: Dictionary)
+signal berry_pressed(grapheme_phoneme_data: Dictionary)
 
 const LEAF_SCENE: PackedScene = preload("res://sources/minigames/caterpillar/leaf.tscn")
 const BERRY_SCENE: PackedScene = preload("res://sources/minigames/caterpillar/berry.tscn")
@@ -50,10 +50,10 @@ func _process(delta: float) -> void:
 			berry.position.x -= velocity * delta
 
 
-func spawn_berry(gp: Dictionary, is_distractor: bool) -> void:
+func spawn_berry(grapheme_phoneme_data: Dictionary, is_distractor: bool) -> void:
 	var berry: Berry = BERRY_SCENE.instantiate()
 	berries.add_child(berry)
-	berry.gp = gp
+	berry.grapheme_phoneme_data = grapheme_phoneme_data
 	berry.is_distractor = is_distractor
 	if is_highlighting:
 		berry.highlight()
@@ -79,5 +79,5 @@ func _on_leaf_timer_timeout() -> void:
 	leaf_timer.start()
 
 
-func _on_berry_pressed(gp: Dictionary) -> void:
-	berry_pressed.emit(gp)
+func _on_berry_pressed(grapheme_phoneme_data: Dictionary) -> void:
+	berry_pressed.emit(grapheme_phoneme_data)
