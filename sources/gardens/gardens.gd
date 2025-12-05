@@ -379,22 +379,19 @@ func _ready() -> void:
 
 static func compute_lessons_distribution(total_lessons: int, garden_layouts: Array[GardenLayout]) -> Array[int]:
 	Log.trace("Gardens: ComputeLessonsDistribution: Parameters total_lessons = %s, garden_layouts count = %s" % [str(total_lessons), str(garden_layouts.size())])
-	var distribution: Array[int] = []
 	var lessons_left: int = total_lessons
+	var distribution: Array[int] = []
 	var gardens_left: int = garden_layouts.size()
-	for layout_index: int in range(garden_layouts.size()):
-		var max_lessons: int = garden_layouts[layout_index].lesson_buttons.size()
+	for _layout_index: int in range(garden_layouts.size()):
 		var lessons_for_garden: int = 0
 		if gardens_left > 0:
 			lessons_for_garden = int(ceili(float(lessons_left) / float(gardens_left)))
-		lessons_for_garden = min(lessons_for_garden, max_lessons)
 		if lessons_for_garden > lessons_left:
-				lessons_for_garden = lessons_left
+			lessons_for_garden = lessons_left
 		distribution.append(lessons_for_garden)
 		lessons_left -= lessons_for_garden
 		gardens_left -= 1
 	return distribution
-
 
 func _process(_delta: float) -> void:
 	locked_line.position.x = - scroll_container.scroll_horizontal
@@ -568,11 +565,11 @@ func set_gardens_layout(p_gardens_layout: GardensLayout) -> void:
 func add_gardens() -> void:
 	if not garden_parent:
 		return
-	
+
 	# Removes old gardens
 	for child: Node in garden_parent.get_children():
 		child.free()
-	
+
 	var distribution: Array[int] = compute_lessons_distribution(lessons.size(), gardens_layout.gardens)
 
 	var garden_index: int = 0
@@ -584,12 +581,34 @@ func add_gardens() -> void:
 		garden_index += 1
 
 		var lessons_for_garden: int = distribution[layout_index]
-		garden_layout.lesson_buttons.resize(lessons_for_garden)
-		# TODO : HANDLE WHEN NUMBER OF LESSONS IS MORE THAN 4
-		garden.lesson_button_controls.resize(lessons_for_garden)
+		_ensure_layout_buttons_capacity(garden_layout, lessons_for_garden)
 
 		garden.garden_layout = garden_layout
 
+func _ensure_layout_buttons_capacity(garden_layout: GardenLayout, lessons_for_garden: int) -> void:
+	if lessons_for_garden <= garden_layout.lesson_buttons.size():
+		return
+
+	var buttons_to_create: int = lessons_for_garden - garden_layout.lesson_buttons.size()
+	var base_positions: Array[GardenLayout.GardenLayoutLessonButton] = garden_layout.lesson_buttons.duplicate()
+
+	var start_y: int = 300
+	var end_y: int = 1200
+	var rows: int = max(1, int(ceil(float(lessons_for_garden) / 5.0)))
+	var cols: int = int(ceil(float(lessons_for_garden) / float(rows)))
+	var spacing_x: float = 2000.0 / float(max(1, cols))
+	var spacing_y: float = float(end_y - start_y) / float(max(1, rows - 1))
+
+	for _index: int in range(buttons_to_create):
+		var button_index: int = garden_layout.lesson_buttons.size()
+		var row: int = int(button_index / cols)
+		var col: int = button_index % cols
+		var position: Vector2i = Vector2i(int(spacing_x * (col + 0.5)), int(start_y + spacing_y * row))
+		var path_out: Vector2i = Vector2i.ZERO
+		if button_index < base_positions.size():
+			path_out = base_positions[button_index].path_out_position
+		var new_button: GardenLayout.GardenLayoutLessonButton = GardenLayout.GardenLayoutLessonButton.new(position, path_out)
+		garden_layout.lesson_buttons.append(new_button)
 
 func set_up_path() -> void:
 	if not garden_parent:

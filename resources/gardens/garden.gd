@@ -11,6 +11,7 @@ enum FlowerSizes{
 
 const FLOWER_PATH_MODEL: String = "res://assets/gardens/flowers/plant_%02d_%02d_%s.png"
 const BACKGROUND_PATH_MODEL: String = "res://assets/gardens/gardens/garden_%02d_open.png"
+const LESSON_BUTTON_SCENE: PackedScene = preload("res://sources/lesson_screen/lesson_button.tscn")
 
 @export var garden_layout: GardenLayout:
 	set = set_garden_layout
@@ -25,23 +26,25 @@ var garden_index: int = -1
 
 @onready var buttons: Control = $Buttons
 @onready var flower_controls: Array[TextureRect] = [
-	%Flower1,
-	%Flower2,
-	%Flower3,
-	%Flower4,
-	%Flower5,
+        %Flower1,
+        %Flower2,
+        %Flower3,
+        %Flower4,
+        %Flower5,
 ]
 @onready var background: TextureRect = %Background
 @onready var lesson_button_controls: Array[LessonButton] = [
-	%Button1,
-	%Button2,
-	%Button3,
-	%Button4,
+        %Button1,
+        %Button2,
+        %Button3,
+        %Button4,
 ]
 
 
 func get_button_size() -> Vector2:
-	return lesson_button_controls[0].get_size()
+        if lesson_button_controls.is_empty():
+                return Vector2.ZERO
+        return lesson_button_controls[0].get_size()
 
 
 func set_garden_layout(p_garden_layout: GardenLayout) -> void:
@@ -77,21 +80,34 @@ func update_flowers() -> void:
 
 
 func set_lesson_buttons(p_lesson_buttons: Array[GardenLayout.GardenLayoutLessonButton]) -> void:
-	for lesson_button_control: LessonButton in lesson_button_controls:
-		lesson_button_control.hide()
-	for index: int in range(p_lesson_buttons.size()):
-		if index >= lesson_button_controls.size():
-			break
-		var lesson_button: GardenLayout.GardenLayoutLessonButton = p_lesson_buttons[index]
-		var lesson_button_control: LessonButton = lesson_button_controls[index]
-		lesson_button_control.position = Vector2(lesson_button.position)
-		lesson_button_control.show()
-		lesson_button_control.pivot_offset = lesson_button_control.size / 2
+        for lesson_button_control: LessonButton in lesson_button_controls:
+                lesson_button_control.hide()
+
+        if p_lesson_buttons.size() > lesson_button_controls.size():
+                _create_missing_buttons(p_lesson_buttons.size() - lesson_button_controls.size())
+
+        for index: int in range(p_lesson_buttons.size()):
+                if index >= lesson_button_controls.size():
+                        break
+                var lesson_button: GardenLayout.GardenLayoutLessonButton = p_lesson_buttons[index]
+                var lesson_button_control: LessonButton = lesson_button_controls[index]
+                lesson_button_control.position = Vector2(lesson_button.position)
+                lesson_button_control.show()
+                lesson_button_control.pivot_offset = lesson_button_control.size / 2
+                lesson_button_control.completed_color = color
+
+
+func _create_missing_buttons(count: int) -> void:
+        for _i: int in range(count):
+                var new_button: LessonButton = LESSON_BUTTON_SCENE.instantiate()
+                new_button.hide()
+                buttons.add_child(new_button)
+                lesson_button_controls.append(new_button)
 
 
 func set_background(p_color: int) -> void:
-	if not background:
-		return
+        if not background:
+                return
 	background.texture = load(BACKGROUND_PATH_MODEL % [p_color+1])
 	color = garden_colors[p_color]
 	
