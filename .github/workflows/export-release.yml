@@ -1,0 +1,157 @@
+name: Export and release builds
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  export-and-release:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
+      !startsWith(github.event.pull_request.head.ref, 'prof_tool/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read project version
+        id: version
+        env:
+          BRANCH_VERSION: ${{ github.event.pull_request.head.ref }}
+        run: |
+          python - <<'PY'
+          import re
+          import os
+          from pathlib import Path
+
+          text = Path("project.godot").read_text(encoding="utf-8")
+          features_match = re.search(r'config/features=PackedStringArray\(([^)]*)\)', text)
+          godot_version = "4.6"
+          if features_match:
+              versions = re.findall(r'"(\d+\.\d+)"', features_match.group(1))
+              if versions:
+                  godot_version = versions[0]
+          version = os.environ["BRANCH_VERSION"].strip()
+          is_version = bool(re.fullmatch(r"\d+\.\d+\.\d+", version))
+          output_path = os.environ["GITHUB_OUTPUT"]
+          with open(output_path, "a", encoding="utf-8") as fh:
+              fh.write(f"is_version={'true' if is_version else 'false'}\n")
+              fh.write(f"godot_version={godot_version}\n")
+              if is_version:
+                  fh.write(f"version={version}\n")
+          PY
+      
+      - name: Comment and stop if branch name is not SemVer
+        if: steps.version.outputs.is_version != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const branch = pr.head.ref;
+            const msg =
+              `⚠️ Auto-release ignored.\n\n` +
+              `The source branch \`${branch}\` does not follow SemVer nomenclature \`x.y.z\`.\n` +
+              `Rename the branch (e.g., \`1.2.3\`) and re-merge the PR if you want to trigger a release.`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: msg
+            });
+      
+      - name: Compare with latest release
+        id: compare
+        if: steps.version.outputs.is_version == 'true'
+        env:
+          CURRENT_VERSION: ${{ steps.version.outputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.request
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          current_version = os.environ["CURRENT_VERSION"].strip()
+          url = f"https://api.github.com/repos/{repo}/releases/latest"
+          req = urllib.request.Request(
+              url,
+              headers={
+                  "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+                  "Accept": "application/vnd.github+json",
+              },
+          )
+          latest_tag = ""
+          try:
+              with urllib.request.urlopen(req) as resp:
+                  data = json.load(resp)
+                  latest_tag = data.get("tag_name", "")
+          except urllib.error.HTTPError as exc:
+              if exc.code != 404:
+                  raise
+          latest_version = latest_tag.lstrip("v").strip()
+
+          def parse_version(value: str) -> list[int]:
+              parts = [int(p) for p in value.split(".") if p.isdigit()]
+              return parts
+
+          def is_higher(current: str, latest: str) -> bool:
+              current_parts = parse_version(current)
+              latest_parts = parse_version(latest)
+              length = max(len(current_parts), len(latest_parts))
+              current_parts += [0] * (length - len(current_parts))
+              latest_parts += [0] * (length - len(latest_parts))
+              return current_parts > latest_parts
+
+          should_build = False
+          if not latest_version:
+              should_build = True
+          else:
+              should_build = is_higher(current_version, latest_version)
+
+          output_path = os.environ["GITHUB_OUTPUT"]
+          with open(output_path, "a", encoding="utf-8") as fh:
+              fh.write(f"latest_version={latest_version}\n")
+              fh.write(f"should_build={'true' if should_build else 'false'}\n")
+          PY
+
+      - name: Setup Godot
+        if: steps.compare.outputs.should_build == 'true'
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ steps.version.outputs.godot_version }}
+          include-templates: true
+
+      - name: Export builds
+        if: steps.compare.outputs.should_build == 'true'
+        run: |
+          mkdir -p build/Windows build/Linux
+          godot --headless --export-release "Windows Kalulu" "build/Windows/Kalulu.exe"
+          godot --headless --export-release "Linux Kalulu" "build/Linux/Kalulu.x86_64"
+
+      - name: Package exports
+        if: steps.compare.outputs.should_build == 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          cd build/Windows
+          zip -r "../Kalulu-Windows-${VERSION}.zip" .
+          cd ../Linux
+          zip -r "../Kalulu-Linux-${VERSION}.zip" .
+      
+      - name: Create GitHub release
+        if: steps.compare.outputs.should_build == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          files: |
+            build/Kalulu-Windows-${{ steps.version.outputs.version }}.zip
+            build/Kalulu-Linux-${{ steps.version.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
