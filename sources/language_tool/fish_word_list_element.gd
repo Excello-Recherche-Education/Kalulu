@@ -19,8 +19,10 @@ var word: String = ""
 
 func set_word_id(p_word_id: int) -> void:
 	word_id = p_word_id
-	if option_button:
-		option_button.select(option_button.get_item_index(word_id))
+	if not option_button:
+		Log.error("FishWordListElement: set_word_id: option_button null but necessary to continue")
+		return
+	option_button.select(option_button.get_item_index(word_id))
 	lesson_nb = Database.get_min_lesson_for_word_id(word_id)
 	word = option_button.get_item_text(option_button.get_item_index(word_id))
 
